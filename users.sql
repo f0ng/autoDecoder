@@ -1,0 +1,13 @@
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (1, 'Dumb', 'Dumb');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (2, 'Angelina', 'I-kill-you');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (3, 'Dummy', 'p@ssword');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (4, 'secure', 'crappy');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (5, 'stupid', 'stupidity');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (6, 'superman', 'genious');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (7, 'batman', 'mob!le');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (8, 'admin', 'admin');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (9, 'admin1', 'admin1');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (10, 'admin2', 'admin2');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (11, 'admin3', 'admin3');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (12, 'dhakkan', 'dumbo');
+INSERT INTO `users`(`id`, `username`, `password`) VALUES (14, 'admin4', 'admin4');
