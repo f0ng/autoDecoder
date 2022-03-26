@@ -18,6 +18,8 @@
 
 - `flasktest.py` 为测试文件编写的Python flask加解密接口。
 
+详细举例可至公众号查看https://mp.weixin.qq.com/s/B-lBbVpJsPdCp1pjz2Rxdg
+
 >## 通过自带加解密算法进行解密
 ![通过自带加解密算法进行解密](https://user-images.githubusercontent.com/48286013/160236779-9848060d-94ff-493d-ace5-44aa85e6e444.gif)
 
