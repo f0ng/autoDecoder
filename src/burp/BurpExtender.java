@@ -10,6 +10,10 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 public class BurpExtender extends AbstractTableModel  implements IBurpExtender, ITab, IMessageEditorController,IMessageEditorTabFactory ,IHttpListener{
 
@@ -34,7 +38,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
         callbacks.setExtensionName("autoDecoder");
         this.stdout.println("=======================================");
         this.stdout.println("[+]          load successful!          ");
-        this.stdout.println("[+]         autoDecoder v0.1           ");
+        this.stdout.println("[+]         autoDecoder v0.13          ");
         this.stdout.println("[+]            code by f0ng            ");
         this.stdout.println("[+] https://github.com/f0ng/autoDecoder");
         this.stdout.println("=======================================");
@@ -135,8 +139,17 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
 
                     if (IndexautoDecoder.getRadioButton2State()) { // 如果选中 通过接口进行加解密
                         System.out.println(new String(body));
-                        String decodeTotal = sendPost(IndexautoDecoder.getEncodeApi(),"data="+ new String(body));
+                        String decodeTotal = null;
+                        try {
+                            decodeTotal = sendPostnew(IndexautoDecoder.getEncodeApi(),new String(body));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        //System.out.println(decodeTotal);
+                        //System.out.println(decodeTotal.contains("\r\n\r"));
                         byte[] httpmsgresp = helpers.buildHttpMessage(headersList, decodeTotal.getBytes());
+                        //System.out.println(Arrays.toString(decodeTotal.getBytes()));
                         iHttpRequestResponse.setRequest(httpmsgresp);
                     }
 
@@ -152,6 +165,8 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                     List<String> headersList = iResponseInfo.getHeaders();
                     int bodyOffset = iResponseInfo.getBodyOffset();
                     byte[] body = Arrays.copyOfRange(response, bodyOffset, response.length);
+                    System.out.println(response.length);
+                    System.out.println(new String(body));
 
                     if (IndexautoDecoder.getRadioButton1State()) { // 如果选中 通过加解密算法进行加解密
                         try {
@@ -164,7 +179,12 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                         iHttpRequestResponse.setResponse(httpmsgresp);
                     }
                     if (IndexautoDecoder.getRadioButton2State()) { // 如果选中 通过接口进行加解密
-                        String decodeTotal = sendPost(IndexautoDecoder.getDecodeApi(),"data="+ new String(body));
+                        String decodeTotal = null;
+                        try {
+                            decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(),new String(body));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         byte[] httpmsgresp = helpers.buildHttpMessage(headersList, decodeTotal.getBytes());
                         iHttpRequestResponse.setResponse(httpmsgresp);
                     }
@@ -261,7 +281,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                             for (String singleheader : headersList)
                                 totalHeaders = totalHeaders + singleheader + "\r\n";
 
-                            String decodeTotal = sendPost(IndexautoDecoder.getDecodeApi(), "data=" + new String(body));
+                            String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(),  new String(body));
                             iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
                         }
                     }
@@ -285,7 +305,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                         for (String singleheader : headersList)
                             totalHeaders = totalHeaders + singleheader + "\r\n";
 
-                        String decodeTotal = sendPost(IndexautoDecoder.getDecodeApi(),"data="+ new String(body));
+                        String decodeTotal = sendPostnew(IndexautoDecoder.getEncodeApi(),new String(body));
 //                        System.out.println(decodeTotal);
                         iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
 
@@ -314,8 +334,34 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
     }
 
     public static String getPath(){
-        String jarPath = callbacks.getExtensionFilename(); // 获取当前jar的路径
-        return jarPath.substring(0, jarPath.lastIndexOf("/")) ;
+        String oss = System.getProperty("os.name");
+
+        if ( oss.toLowerCase().startsWith("win") ) {
+            System.out.println(oss);
+            return "autoDecoder.properties";
+        }else {
+            String jarPath = callbacks.getExtensionFilename(); // 获取当前jar的路径
+            System.out.println(jarPath);
+            return jarPath.substring(0, jarPath.lastIndexOf("/")) + "/autoDecoder.properties";
+        }
+    }
+
+    public static String sendPostnew(String url, String param) throws IOException {
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        RequestBody requestBody = new FormBody.Builder()
+                .add("data",param)
+                .build();
+
+
+        Request request = new Request.Builder()
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .url(url)
+                .post(requestBody)
+                .build();
+
+        String result = okHttpClient.newCall(request).execute().body().string();
+        return result;
     }
 
     public static String sendPost(String url, String param) {
