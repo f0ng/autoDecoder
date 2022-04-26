@@ -38,12 +38,30 @@ public class IndexautoDecoder {
     private static JTextField textField3;
     private static JTextField textField4;
     private static JTextArea textArea1;
+    private static JTextArea textArea2;
+
     private JButton Button11;
     private JButton Button22;
     private JRadioButton RadioButton;
+    private static JRadioButton RadioButton3; // 是否对请求头加解密
+    private JTextField headertextField; // 请求头加解密拼接
 
-    public File f = new File(BurpExtender.getPath() + "/autoDecoder.properties");
 
+
+
+    //public File f = new File(BurpExtender.getPath() + "/autoDecoder.properties");
+
+    public File f = new File( BurpExtender.getPath() );
+    //File f;
+    //if ( oss.toLowerCase().startsWith("win") ) {
+    //
+    //    f = new File("autoDecoder.properties");
+    //
+    //}else{
+
+        //f = new File(BurpExtender.getPath() + "/autoDecoder.properties");
+
+    //}
 
     public String[] EncodeParams = new String[100]; // 保存加密的一些参数
 
@@ -172,8 +190,33 @@ public class IndexautoDecoder {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String total = "";
+                Boolean encodeApi = getRadioButton2State(); // 读取是否通过接口加密
+
+                Boolean encodeCode = getRadioButton1State(); // 读取是否通过加解密算法加密
+
+                Boolean encodeIf = getRadioButtonState(); // 读取是否启用插件
+
+                String encodeMethod;
+
+                if (encodeApi)
+                    encodeMethod = "1";
+                else if (encodeCode)
+                    encodeMethod = "2";
+                else
+                    encodeMethod = "0";
+
+                total = total + "encodemethod=" + encodeMethod + "\n";
+
                 total = total + "encodeapi=" + textField3.getText().trim() + "\n";
                 total = total + "decodeapi=" + textField4.getText().trim() + "\n";
+                Boolean encodeHeaders = getRadioButton3State();
+                String encodeHeaders_str;
+                if (encodeHeaders)
+                    encodeHeaders_str = "1";
+                else
+                    encodeHeaders_str = "0";
+                total = total + "encodeheaders=" + encodeHeaders_str + "\n";
+
                 total = total + "encodemode=" + (String) mChoiceBox1.getSelectedItem() + "\n";
                 total = total + "ivmode=" + (String) mChoiceBox2.getSelectedItem() + "\n";
                 total = total + "paddingmode=" + (String) mChoiceBox3.getSelectedItem() + "\n";
@@ -187,6 +230,13 @@ public class IndexautoDecoder {
                     hosts_total.append(host).append(",");
                 hosts_total = new StringBuilder(hosts_total.substring(0, hosts_total.length() - 1));
                 total = total + "hosts=" + hosts_total + "\n";
+
+                String[] words_lists = textArea2.getText().split("\n");
+                StringBuilder words_total = new StringBuilder();
+                for (String word: words_lists)
+                    words_total.append(word).append(",");
+                words_total = new StringBuilder(words_total.substring(0, words_total.length() - 1));
+                total = total + "words=" + words_total + "\n";
 
                 try (FileWriter fileWriter = new FileWriter(f.getAbsolutePath())) {
                     fileWriter.append(total);
@@ -203,7 +253,7 @@ public class IndexautoDecoder {
                 mChoiceBox2.setSelectedItem("CBC"); // iv模式 ECB / CBC
                 mChoiceBox3.setSelectedItem("PKCS5Padding"); // 填充模式
                 mChoiceBox4.setSelectedItem("Base64"); // 密文编码
-                mChoiceBox5.setSelectedItem("无");
+                mChoiceBox5.setSelectedItem("null");
                 keytextField.setText("f0ngtest"); // key 密钥
                 ivtextField.setText("f0ngf0ng"); // iv
 
@@ -266,6 +316,10 @@ public class IndexautoDecoder {
 
     public static boolean getRadioButton2State() { // 获取是否通过接口进行加解密
         return RadioButton2.isSelected();
+    }
+
+    public static boolean getRadioButton3State() { // 获取是否对header进行处理
+        return RadioButton3.isSelected();
     }
 
     public boolean getRadioButtonState() { // 获取是否通过接口进行加解密
@@ -402,6 +456,21 @@ public class IndexautoDecoder {
         final JLabel label12 = new JLabel();
         label12.setText("响应包解密方式");
         panel1.add(label12, new GridConstraints(14, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+
+        textArea2 = new JTextArea();
+        JScrollPane js4=new JScrollPane(textArea2);
+        js4.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        js4.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        textArea2.setLineWrap(true);
+        textArea2.setText("\"\n:");
+        panel1.add(js4, new GridConstraints(14, 9, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(100, 20), null, 0, false));
+        final JLabel label22 = new JLabel();
+        label22.setText("设置明文关键字(出现则不进行加密)");
+        panel1.add(label22, new GridConstraints(14, 8, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+
+
         Object[][] data2 = new Object[0][5];
         DefaultTableModel model2=new DefaultTableModel(data2, columnNames);
         table1 = new JTable(model);
@@ -429,7 +498,7 @@ public class IndexautoDecoder {
         panel1.add(label13, new GridConstraints(13, 8, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         mChoiceBox4 = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel4 = new DefaultComboBoxModel();
-        defaultComboBoxModel4.addElement("无");
+        defaultComboBoxModel4.addElement("null");
         defaultComboBoxModel4.addElement("Base64");
         defaultComboBoxModel4.addElement("Hex");
         mChoiceBox4.setModel(defaultComboBoxModel4);
@@ -439,7 +508,7 @@ public class IndexautoDecoder {
         panel1.add(label14, new GridConstraints(4, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         mChoiceBox5 = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel5 = new DefaultComboBoxModel();
-        defaultComboBoxModel5.addElement("无");
+        defaultComboBoxModel5.addElement("null");
         defaultComboBoxModel5.addElement("Base64");
         defaultComboBoxModel5.addElement("Hex");
         mChoiceBox5.setModel(defaultComboBoxModel5);
@@ -454,16 +523,23 @@ public class IndexautoDecoder {
                 bp.add(RadioButton1);
                 bp.add(RadioButton);
 
-//        System.out.println(f.getAbsolutePath());
+        RadioButton3 = new JRadioButton();
+        RadioButton3.setText("对请求头进行加密");
+        panel1.add(RadioButton3, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+
 
                 if (!f.exists())
                 {
                 try {
                 f.createNewFile();
                 try (FileWriter fileWriter = new FileWriter(f)) {
+                fileWriter.append("encodemethod=0");
+                fileWriter.append("\n");
                 fileWriter.append("encodeapi=http://127.0.0.1:8888/encode");
                 fileWriter.append("\n");
                 fileWriter.append("decodeapi=http://127.0.0.1:8888/decode");
+                fileWriter.append("\n");
+                fileWriter.append("encodeheaders=2");
                 fileWriter.append("\n");
                 fileWriter.append("encodemode=DES");
                 fileWriter.append("\n");
@@ -473,13 +549,15 @@ public class IndexautoDecoder {
                 fileWriter.append("\n");
                 fileWriter.append("sSrcmode=Base64");
                 fileWriter.append("\n");
-                fileWriter.append("keyivmode=无");
+                fileWriter.append("keyivmode=null");
                 fileWriter.append("\n");
                 fileWriter.append("skey=f0ngtest");
                 fileWriter.append("\n");
                 fileWriter.append("iv=f0ngf0ng");
                 fileWriter.append("\n");
                 fileWriter.append("hosts=10.211.55.4");
+                fileWriter.append("\n");
+                fileWriter.append("words=\",:");
                 fileWriter.flush();
                 } catch (IOException e) { e.printStackTrace(); }
                 } catch (IOException e) { e.printStackTrace(); }
@@ -496,12 +574,27 @@ public class IndexautoDecoder {
                 String skey = FileGetValue(f,"skey");; // key 密钥
                 String iv = FileGetValue(f,"iv");; // iv
 
+                String encodemethod = FileGetValue(f,"encodemethod");; // encodemethod
+                if (encodemethod == "0"){ // 不启用插件
+                    RadioButton.setSelected(true);
+                }else if(encodemethod == "1"){ // 接口加解密
+                    RadioButton2.setSelected(true);
+                }else{  // 加解密算法进行加解密
+                    RadioButton1.setSelected(true);
+                }
+
 
                 String[] hosts = FileGetValue(f,"hosts").split(",");
                 String t = "";
                 for (String host : hosts)
                     t = t + host +'\n';
                 textArea1.setText(t);
+
+                String[] words = FileGetValue(f,"words").split(",");
+                String tt = "";
+                for (String word : words)
+                    tt = tt + word +'\n';
+                textArea2.setText(tt);
 
                 data3[0][0] = encodemode + "/" + ivmode + "/" + paddingmode;
                 data3[0][1] = sSrcmode;
@@ -577,6 +670,9 @@ public class IndexautoDecoder {
         String[] list2 = list.toArray(new String[list.size()]);
         // 返回删除空值后的数组
         return list2;
+    }
+    public static String gettextArea2() {
+        return textArea2.getText();
     }
 
     public static String getEncodeApi() {
