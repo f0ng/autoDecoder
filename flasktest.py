@@ -33,7 +33,7 @@ app = Flask(__name__)
 
 @app.route('/encode',methods=["POST"])
 def encrypt():
-    param = request.form.get('data')  # 获取  post 参数
+    param = request.form.get('dataBody')  # 获取  post 参数
     encry_param = des_encrypt(param.strip("\n"))
     print(param)
     print(encry_param)
@@ -41,7 +41,7 @@ def encrypt():
 
 @app.route('/decode',methods=["POST"])
 def decrypt():
-    param = request.form.get('data')  # 获取  post 参数
+    param = request.form.get('dataBody')  # 获取  post 参数
     decrypt_param = des_decrypt(param.strip("\n"))
     print(param)
     print(decrypt_param)
