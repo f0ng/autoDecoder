@@ -1,4 +1,21 @@
 # autoDecoder
+## 2022.4.26更新 0.14
+
+1. 增加对整个请求包的处理，具体怎么修改，根据个人需要不同进行自定义了，模板文件为`flasktestheader.py`
+
+配置如下：
+
+<img src="https://user-images.githubusercontent.com/48286013/165212779-88601efd-d11d-44ff-bd2a-74fc8efee915.png" width="700" />
+
+原始请求包，捕捉整个请求如下，在请求包添加额外的请求头`aaaa:bbbb`、`f0ng:test`
+
+<img src="https://user-images.githubusercontent.com/48286013/165212786-17579322-9c9d-411f-964e-931608184f72.png" width="700" />
+
+实际请求包
+
+<img src="https://user-images.githubusercontent.com/48286013/165212793-b267a7ea-b965-4ed8-80f7-3bf1ca428fa8.png" width="700" />
+
+2. 增加自定义设置明文关键字，当请求体中出现了相应的关键字则不对数据包进行处理，取`contains`进行判断
 ## 2022.4.22更新 0.13
 
 1. 对于`\r\n`的请求包处理不够完善，0.13版本修复该问题
