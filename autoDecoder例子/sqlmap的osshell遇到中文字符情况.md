@@ -5,15 +5,23 @@ sqlmap的os-shell经常遇到会有中文字符的目录，我们如果要写web
 `sqlmap`的结果：
 ![800](photo/Pasted%20image%2020220426143153.png)
 直接是不行的，原因在于将中文进行了hex编码，导致mssql识别不出来
+
 但是如果我们用`burp`去重放，将hex编码直接替换为编码前的内容，是直接可以的：
+
 sqlmap 的数据包
+
 ![800](photo/Pasted%20image%2020220426143526.png)
+
 结果是返回不了我们想要的结果的
 
 手动修改为中文
+
 ![800](photo/Pasted%20image%2020220426143617.png)
+
 获得结果
+
 ![800](photo/Pasted%20image%2020220426144210.png)
+
 配合`autoDecoder`，可以写flask代码如下：
 ```python
 # -*- coding:utf-8 -*-  
@@ -60,7 +68,9 @@ if __name__ == '__main__':
 ```
 
 `autoDecoder`配置如下：
+
 ![800](photo/Pasted%20image%2020220426144941.png)
 
 sqlmap结果如下
+
 ![800](photo/Pasted%20image%2020220426145224.png)
