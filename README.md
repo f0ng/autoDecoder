@@ -1,4 +1,22 @@
 # autoDecoder
+## 2022.5.7 更新 0.15
+
+* 优化设置域名处的端口问题，两种模式：
+
+  ①只输入域名，匹配域名与任意端口号
+  
+<img width="330" alt="image" src="https://user-images.githubusercontent.com/48286013/167258838-6a10e777-5253-4b21-be26-80acf7343592.png">
+  
+匹配所有`www.baidu.com:端口号`，如`www.baidu.com:8080`、`www.baidu.com:8088`
+  
+  ②输入域名与端口号，匹配唯一域名与端口号host
+  
+<img width="354" alt="image" src="https://user-images.githubusercontent.com/48286013/167258977-a897288a-61b0-4838-ae2c-3d8bb945925b.png">
+  
+  只匹配`www.baidu.com:8080`
+
+
+
 ## 2022.4.26更新 0.14
 
 1. 增加对整个请求包的处理，具体怎么修改，根据个人需要不同进行自定义了，模板文件为`flasktestheader.py`
