@@ -40,7 +40,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
         callbacks.setExtensionName("autoDecoder");
         this.stdout.println("=======================================");
         this.stdout.println("[+]          load successful!          ");
-        this.stdout.println("[+]         autoDecoder v0.14          ");
+        this.stdout.println("[+]         autoDecoder v0.15          ");
         this.stdout.println("[+]            code by f0ng            ");
         this.stdout.println("[+] https://github.com/f0ng/autoDecoder");
         this.stdout.println("=======================================");
@@ -108,8 +108,6 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                 isDecoded = false;
                 ishost = false;
                 isWords = false;
-
-
                 // 如果是明文，就加密以后发出请求，然后响应包也为明文
                 byte[] request = iHttpRequestResponse.getRequest();
                 IRequestInfo iRequestInfo = helpers.analyzeRequest(iHttpRequestResponse);
@@ -118,26 +116,42 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                 int bodyOffset = iRequestInfo.getBodyOffset();
                 byte[] body = Arrays.copyOfRange(request, bodyOffset, request.length);
 
-                String[] hosts = IndexautoDecoder.getEncryptHosts();
+                String[] hosts = IndexautoDecoder.getEncryptHosts(); // 得到需要加密的域名
                 for (String header : headersList) {
-                    for (String host : hosts)
-                        if (header.endsWith(host.replace("*", "").replaceAll(":(.*)",""))) {
+                    for (String host : hosts) {
+                        String host_value = "";
+                        String[] host_lists = header.split(":");
+                        if (host_lists[0].toLowerCase().equals("host")) {
+                            if (host_lists.length > 2)
+                                host_value = host_lists[1] + ":" + host_lists[2];
+                            else
+                                host_value = host_lists[1];
+                            host_value = host_value.trim();
+                            if(host_value.replace("*", "").replaceAll(":(.*)", "").endsWith(host.replace("*", "")))
+                                ishost = true;
+                        }
+                        // todo 端口设置问题
+                        if ( header.endsWith(host.replace("*", "")) || host_value.replace("*", "").replaceAll(":(.*)", "").endsWith(host.replace("*", "")) ||
+                                header.replace("*", "").endsWith(host.replace("*", ""))) {
+
                             ishost = true; //返回true
                         }
+
+                    }
                 }
                 //System.out.println("124");
                 String encodeWords = IndexautoDecoder.gettextArea2();
                 String[] encodeWords_lists = encodeWords.split("\n");
                 for (String encodeWords_single : encodeWords_lists) {
-                    //System.out.println((new String(body)));
-                    //System.out.println(encodeWords_single);
+                    System.out.println((new String(body)));
+                    System.out.println(encodeWords_single);
 
                     if ( (new String(body).contains(encodeWords_single)) )
                         isWords = true;
-                    //System.out.println(isWords);
+                    System.out.println(isWords);
                 }
 
-                if ( ishost && !isWords) {
+                if ( ishost && isWords) {
                 //if ((new String(body).contains("\"") || new String(body).contains(":")) && ishost) {
                     // todo 当请求体 里有"或者:的时候默认为明文，但是可能不能兼容所有情况
                     isDecoded = true;
@@ -265,10 +279,26 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                     for(String header : headersList) {
 //                        System.out.println(header);
                         //请求头中包含指定域名“applog.xx.cn”才设置我们生成的消息编辑器
-                        for ( String host:hosts)
-                        if(header.endsWith(host.replace("*.",""))) {
-                            flag = true; //返回true
-                            break;
+                        for ( String host:hosts) {
+                            String host_value = "";
+                            String[] host_lists = header.split(":");
+                            if (host_lists[0].toLowerCase().equals("host")) {
+                                if (host_lists.length > 2)
+                                    host_value = host_lists[1] + ":" + host_lists[2];
+                                else
+                                    host_value = host_lists[1];
+                                host_value = host_value.trim();
+                                if(host_value.replace("*", "").replaceAll(":(.*)", "").endsWith(host.replace("*", "")))
+                                    flag = true;
+                                break;
+                            }
+                            // todo 端口设置问题
+                            if ( header.endsWith(host.replace("*", "")) || host_value.replace("*", "").replaceAll(":(.*)", "").endsWith(host.replace("*", "")) ||
+                                    header.replace("*", "").endsWith(host.replace("*", ""))) {
+                                flag = true; //返回true
+                                break;
+                            }
+
                         }
                     }
                 }else{ // 响应包也需要解密模块
@@ -296,9 +326,10 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                     List<String> headersList = requestInfo.getHeaders();
 
                     if (IndexautoDecoder.getRadioButton1State()) { // 如果选中 通过加解密算法进行加解密
-                        if (new String(body).contains("\"") || new String(body).contains("'")) {
+                        //if (new String(body).contains("\"") || new String(body).contains("'")) {
+                        if(isWords){ // 如果请求的是明文，则正常显示明文
                             iTextEditor.setText(content);
-                        } else {
+                        } else { // 如果请求的不是明文，则会通过加密
                             String[] DecodeParams = IndexautoDecoder.getDecodeParams(); // 获取解密数组
                             String decodeBody = decryptKeyivmode(new String(body), DecodeParams[5], DecodeParams[6], DecodeParams[0], DecodeParams[1], DecodeParams[2], DecodeParams[3], DecodeParams[4]);
                             String totalHeaders = "";
@@ -322,7 +353,8 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                         //        iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
                         //    }
                         //}else {
-                            if ((new String(body).contains("\"") || new String(body).contains("'"))) {
+                        //    if ((new String(body).contains("\"") || new String(body).contains("'"))) {
+                        if (isWords){
                                 iTextEditor.setText(content);
                             } else {
                                 StringBuilder totalHeaders = new StringBuilder();
@@ -354,7 +386,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                         for (String singleheader : headersList)
                             totalHeaders = totalHeaders + singleheader + "\r\n";
 
-                        String decodeTotal = sendPostnew(IndexautoDecoder.getEncodeApi(),new String(body));
+                        String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(),new String(body));
 //                        System.out.println(decodeTotal);
                         iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
 
@@ -436,49 +468,5 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
         return result_list;
     }
 
-    //public static String sendPost(String url, String param) {
-    //    PrintWriter out = null;
-    //    BufferedReader in = null;
-    //    String result = "";
-    //    try {
-    //        URL realUrl = new URL(url);
-    //        // 打开和URL之间的连接
-    //        URLConnection conn = realUrl.openConnection();
-    //        // 发送POST请求必须设置如下两行
-    //        conn.setDoOutput(true);
-    //        conn.setDoInput(true);
-    //        // 获取URLConnection对象对应的输出流
-    //        out = new PrintWriter(conn.getOutputStream());
-    //        // 发送请求参数
-    //        out.print(param);
-    //        // flush输出流的缓冲
-    //        out.flush();
-    //        // 定义BufferedReader输入流来读取URL的响应
-    //        in = new BufferedReader(
-    //                new InputStreamReader(conn.getInputStream()));
-    //        String line;
-    //        while ((line = in.readLine()) != null) {
-    //            result += line;
-    //        }
-    //    } catch (Exception e) {
-    //        System.out.println("发送 POST 请求出现异常！"+e);
-    //        e.printStackTrace();
-    //    }
-    //    //使用finally块来关闭输出流、输入流
-    //    finally{
-    //        try{
-    //            if(out!=null){
-    //                out.close();
-    //            }
-    //            if(in!=null){
-    //                in.close();
-    //            }
-    //        }
-    //        catch(IOException ex){
-    //            ex.printStackTrace();
-    //        }
-    //    }
-    //    return result;
-    //}
 
 }
