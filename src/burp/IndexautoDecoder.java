@@ -236,7 +236,7 @@ public class IndexautoDecoder {
                 for (String word: words_lists)
                     words_total.append(word).append(",");
                 words_total = new StringBuilder(words_total.substring(0, words_total.length() - 1));
-                total = total + "words=" + words_total + "\n";
+                total = total + "words=" + words_total ;
 
                 try (FileWriter fileWriter = new FileWriter(f.getAbsolutePath())) {
                     fileWriter.append(total);
@@ -467,7 +467,7 @@ public class IndexautoDecoder {
         textArea2.setText("\"\n:");
         panel1.add(js4, new GridConstraints(14, 9, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(100, 20), null, 0, false));
         final JLabel label22 = new JLabel();
-        label22.setText("设置明文关键字(出现则不进行加密)");
+        label22.setText("明文关键字(出现关键字标记进行加密，置空则全部加密)");
         panel1.add(label22, new GridConstraints(14, 8, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
 
@@ -588,13 +588,13 @@ public class IndexautoDecoder {
                 String t = "";
                 for (String host : hosts)
                     t = t + host +'\n';
-                textArea1.setText(t);
+                textArea1.setText(t.trim());
 
                 String[] words = FileGetValue(f,"words").split(",");
                 String tt = "";
                 for (String word : words)
                     tt = tt + word +'\n';
-                textArea2.setText(tt);
+                textArea2.setText(tt.trim());
 
                 data3[0][0] = encodemode + "/" + ivmode + "/" + paddingmode;
                 data3[0][1] = sSrcmode;
