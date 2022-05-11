@@ -40,7 +40,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
         callbacks.setExtensionName("autoDecoder");
         this.stdout.println("=======================================");
         this.stdout.println("[+]          load successful!          ");
-        this.stdout.println("[+]         autoDecoder v0.15          ");
+        this.stdout.println("[+]         autoDecoder v0.16          ");
         this.stdout.println("[+]            code by f0ng            ");
         this.stdout.println("[+] https://github.com/f0ng/autoDecoder");
         this.stdout.println("=======================================");
@@ -173,8 +173,16 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                             e.printStackTrace();
                         }
                         assert decodeTotal != null;
-                        byte[] httpmsgresp = helpers.buildHttpMessage(Arrays.asList(decodeTotal[0].split("\r\n")), decodeTotal[1].getBytes());
-                        iHttpRequestResponse.setRequest(httpmsgresp);
+                        stdout.println(decodeTotal);
+                        stdout.println(decodeTotal[0]);
+                        if (decodeTotal.length == 1) { // 判断decodeTotal的长度是不是为1，也就是请求体无参数
+
+                            byte[] httpmsgresp = helpers.buildHttpMessage(Arrays.asList(decodeTotal[0].split("\r\n")), "".getBytes());
+                            iHttpRequestResponse.setRequest(httpmsgresp);
+                        }else {
+                            byte[] httpmsgresp = helpers.buildHttpMessage(Arrays.asList(decodeTotal[0].split("\r\n")), decodeTotal[1].getBytes());
+                            iHttpRequestResponse.setRequest(httpmsgresp);
+                        }
 
                     } else {
 
@@ -204,30 +212,48 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
             }
             }else if((IndexautoDecoder.getRadioButton2State() || IndexautoDecoder.getRadioButton1State()) && !messageIsRequest) { // 响应的时候，如果是以明文进行请求，那么响应包也为明文
 //                System.out.println(isDecoded);
-                if ( isDecoded && ishost ) {
+                if (isDecoded && ishost) {
                     //System.out.println(isDecoded);
-                    String decodeBody = null ;
+                    String decodeBody = null;
                     byte[] response = iHttpRequestResponse.getResponse();
                     IResponseInfo iResponseInfo = helpers.analyzeResponse(response);
+
                     // 获取请求中的所有参数
                     List<String> headersList = iResponseInfo.getHeaders();
                     int bodyOffset = iResponseInfo.getBodyOffset();
                     byte[] body = Arrays.copyOfRange(response, bodyOffset, response.length);
-                    //System.out.println(response.length);
-                    //System.out.println(new String(body));
+                    String[] decodeTotal2 = null;
+                    if (IndexautoDecoder.getRadioButton3State() && IndexautoDecoder.getRadioButton2State()) { // 如果选中 通过接口进行加解密
+                        String totalHeaders = ""; // 0.16更新
+                        // todo 对接口处理，传入参数为接口的数组、请求体
+                        for (String singleheader : headersList)
+                            totalHeaders = totalHeaders + singleheader + "\r\n";
 
-                    if (IndexautoDecoder.getRadioButton1State()) { // 如果选中 通过加解密算法进行加解密
                         try {
-                            decodeBody = decryptKeyivmode(new String(body), DecodeParams[5], DecodeParams[6], DecodeParams[0], DecodeParams[1], DecodeParams[2], DecodeParams[3], DecodeParams[4]);
-                        } catch (Exception e) {
+                            decodeTotal2 = sendPostnewHeader(IndexautoDecoder.getDecodeApi(), new String(body),totalHeaders);
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
+                        if (decodeTotal2.length == 1) {  // 判断decodeTotal的长度是不是为1，也就是响应体无参数
+                            byte[] httpmsgresp2 = helpers.buildHttpMessage(Arrays.asList(decodeTotal2[0].split("\r\n")), "".getBytes());
+                            iHttpRequestResponse.setResponse(httpmsgresp2);
+                        }else {
+                            byte[] httpmsgresp2 = helpers.buildHttpMessage(Arrays.asList(decodeTotal2[0].split("\r\n")), decodeTotal2[1].getBytes());
+                            iHttpRequestResponse.setResponse(httpmsgresp2);
+                        }
+                    } else {
 
-                        byte[] httpmsgresp = helpers.buildHttpMessage(headersList, decodeBody.getBytes());
-                        iHttpRequestResponse.setResponse(httpmsgresp);
-                    }
+                        if (IndexautoDecoder.getRadioButton1State()) { // 如果选中 通过加解密算法进行加解密
+                            try {
+                                decodeBody = decryptKeyivmode(new String(body), DecodeParams[5], DecodeParams[6], DecodeParams[0], DecodeParams[1], DecodeParams[2], DecodeParams[3], DecodeParams[4]);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
-                    if (IndexautoDecoder.getRadioButton2State()) { // 如果选中 通过接口进行加解密
+                            byte[] httpmsgresp = helpers.buildHttpMessage(headersList, decodeBody.getBytes());
+                            iHttpRequestResponse.setResponse(httpmsgresp);
+                        }
+                        if (IndexautoDecoder.getRadioButton2State()) {
 
                             String decodeTotal = null;
                             try {
@@ -239,7 +265,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                             iHttpRequestResponse.setResponse(httpmsgresp);
                         }
                     }
-                //}
+            }
             }
         }
     }
