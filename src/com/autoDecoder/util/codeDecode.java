@@ -16,10 +16,36 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class codeDecode {
     public static void main(String[] args) throws Exception {
+        String a = decryptKeyivmode("7AMxtnv6XZEek1DK2PLloZaZu7q7bdMFHeLsgdwMEqckFhLmiiURV0vqUof1lLpvas4DjjYj1fM=",
+                "adDRX4Fo1G7C0m3bWqihLwZS2xzpK4sr","12101754","DESede","CBC","PKCS5Padding","Base64","无");
 
+        System.out.println(a);
     }
 
+    public static byte[] decrypt2(byte[] array) {
+        try {
+            for (byte a : array)
+                System.out.println(a);
+            array = hex2byte(new String(array));
 
+            String key_str = "adDRX4Fo1G7C0m3bWqihLwZS2xzpK4sr";
+            String iv_str = "12101754";
+//            byte[] iv = {-33, -80, 74, -41, 118, -52, 31, -7, 14, -94, 110, 68, 26, 57, 73, -37};
+//            byte[] key = {-9, -35, -119, -127, -123, -98, 107, 41, 50, -57, 46, -35, -13, -102, -20, 20, 77, -44, 56, -106, -54, -107, 37, 47, 48, 41, 49, -120, -3, 3, 58, -68};
+            byte[] iv = toByteArray(iv_str);
+            byte[] key = toByteArray(key_str);
+            final IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+            final SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+            final Cipher instance = Cipher.getInstance("AES/CFB/NoPadding");
+            instance.init(2, secretKeySpec, ivParameterSpec);
+//            return instance.doFinal(Arrays.copyOfRange(array, 16, array.length));
+            return instance.doFinal(array);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
     public static byte[] hex2byte(final String s) {
         if (s == null) {
             return null;
@@ -49,7 +75,12 @@ public class codeDecode {
             }
             else data = encryptedData.getBytes(StandardCharsets.UTF_8);
 
-//            data = hex2byte(new String(data));
+            if (encodemode.equals("DESede")){
+                if (sessionKey.length() > 24){
+                    sessionKey = sessionKey.substring(0,24);
+                }
+            }
+
 
             if (keyivmode.equals("Base64")) {
                 aseKey = Base64.getDecoder().decode(sessionKey);
@@ -65,7 +96,12 @@ public class codeDecode {
             Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
             Cipher cipher = Cipher.getInstance(encodemode + "/" + ivmode + "/" + paddingmode);
             Key sKeySpec = new SecretKeySpec(aseKey, encodemode);
-            cipher.init(Cipher.DECRYPT_MODE, sKeySpec, ivParameterSpec);// 初始化
+            //cipher.init(Cipher.DECRYPT_MODE, sKeySpec, ivParameterSpec);// 初始化
+            if (ivmode.equals("ECB") || ivmode.equals("GCM")) { // 如果为ECB、GCM模式，不进行偏移量加载
+                cipher.init(Cipher.DECRYPT_MODE, sKeySpec);
+            } else {
+                cipher.init(Cipher.DECRYPT_MODE, sKeySpec, ivParameterSpec);
+            }
 
             byte[] result = cipher.doFinal(data);
             return new String(result);
@@ -75,8 +111,6 @@ public class codeDecode {
         }
 
     }
-
-
 
 
     /**
