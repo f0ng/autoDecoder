@@ -45,7 +45,7 @@ app = Flask(__name__)
   
 @app.route('/encode',methods=["POST"])  
 def encrypt():  
-    param = request.form.get('data')  # 获取  post 参数  
+    param = request.form.get('dataBody')  # 获取  post 参数  
 	data = json.loads(param)  
     print(data)  
     encry_param = param.replace( "password': '"+ data['password'],"password': '"+"{MD5}" + data['password']) # 密文替换明文，且添加{MD5}关键字  
@@ -53,12 +53,12 @@ def encrypt():
   
 @app.route('/decode',methods=["POST"]) # 不解密  
 def decrypt():  
-    param = request.form.get('data')  # 获取  post 参数  
+    param = request.form.get('dataBody')  # 获取  post 参数  
 	return param  
   
 if __name__ == '__main__':  
     app.debug = True # 设置调试模式，生产模式的时候要关掉debug  
-	app.run(host="0.0.0.0",port="8888")
+    app.run(host="0.0.0.0",port="8888")
 ```
 运行如下
 ```bash
