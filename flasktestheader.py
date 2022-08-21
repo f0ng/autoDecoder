@@ -21,8 +21,15 @@ def encrypt():
 
 @app.route('/decode',methods=["POST"]) # 不解密
 def decrypt():
-    param = request.form.get('dataBody')  # 获取  post 参数
-    return param
+    body = request.form.get('dataBody')  # 获取  post 参数 必需
+    headers = request.form.get('dataHeaders')  # 获取  post 参数  可选
+    if headers != None: # 开启了响应头加密
+        print(headers + "\r\n\r\n\r\n\r\n" + body)
+        headers = headers + "yyyy:zzzz\r\n"
+        headers = headers + "f0ng:onlysecurity"
+        return headers + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改
+
+    return body
 
 if __name__ == '__main__':
     app.debug = True # 设置调试模式，生产模式的时候要关掉debug
