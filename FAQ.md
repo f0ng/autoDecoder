@@ -10,7 +10,7 @@
 
 `密文关键字` 当请求体内出现该关键字即不进行加解密操作(换行符为分隔符，支持多个关键字)
 
-![image-20220820233829982](/Users/f0ng/Library/Application Support/typora-user-images/image-20220820233829982.png)
+<img width="380" alt="image" src="https://user-images.githubusercontent.com/48286013/187074998-90ddce7f-7b65-4721-8803-2c5e82e16295.png">
 
 3. 有代码基础的建议使用接口进行加解密，可以自定义请求的内容，自由替换；工具本身自带加解密满足不了现在大部分应用的加解密需求。
 
