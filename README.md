@@ -1,6 +1,8 @@
 # autoDecoder
 想维护成一个有很多用例、接口的项目，希望各位师傅有加解密之类的需求可以一起沟通，完善本项目。
 
+## 有问题先到[FAQ](https://github.com/f0ng/autoDecoder/blob/main/FAQ.md)查看
+
 目前已有的例子如下：
 
 1. [ldap的md5加密](https://github.com/f0ng/autoDecoder/blob/main/autoDecoder%E4%BE%8B%E5%AD%90/%E7%99%BB%E5%BD%95%E5%8F%A3%E7%88%86%E7%A0%B4%E4%B9%8Bldap%E7%9A%84md5%E5%8A%A0%E5%AF%86.md)——使用python的flask框架，配合`autoDecoder`插件、`captcha-killer-modified`插件爆破
