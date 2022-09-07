@@ -75,6 +75,12 @@ body = request.form.get('dataBody')  # 获取  post 参数 必需
 headers = request.form.get('dataHeaders')  # 获取  post 参数  可选
 ```
 
+#### 3.`requestorresponse`标识为请求包还是响应包(可选为request和response)，示例：
+```Java
+ImmutableMultiDict([('dataBody', 'dCtLdlmk7wI='), ('requestorresponse', 'response')])
+```
+
+
 ### 函数出参为
 
 #### 3.`body`(当未勾选对请求头加密时)
