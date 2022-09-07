@@ -21,6 +21,41 @@
 
 8. [JSON嵌套加密](https://github.com/f0ng/autoDecoder/blob/main/autoDecoder%E4%BE%8B%E5%AD%90/JSON%E5%B5%8C%E5%A5%97%E5%8A%A0%E5%AF%86/JSON%E5%B5%8C%E5%A5%97%E5%8A%A0%E5%AF%86.md)——使用python的flask框架，解决json数据中嵌套一层base64编码的json加密数据的AES/ECB加解密
 
+## 简单流程图
+
+<table rules="none" align="center">
+	<tr>
+		<td>
+			<center>
+   <font color="AAAAAA">正常流程图</font>
+				<img src="https://user-images.githubusercontent.com/48286013/188769341-a5ad035b-2f0b-4fa1-87e1-342cd800dd46.jpg" width="110%" />
+				<br/>
+			</center>
+		</td>
+		<td>
+			<center>
+   <font color="AAAAAA">通过autoDecoder处理的流程之对于密文的处理</font>
+				<img src="https://user-images.githubusercontent.com/48286013/188769399-5509ca25-9f23-4abc-8074-ff410534cf73.jpg" width="100%" />
+				<br/>
+			</center>
+		</td>
+  		<td>
+			<center>
+   <font color="AAAAAA">通过autoDecoder处理的流程之对于明文的处理</font>
+				<img src="https://user-images.githubusercontent.com/48286013/188770030-b752aae9-dc8a-45a5-b1c6-b45b2995e8f1.jpg" width="100%" />
+				<br/>
+			</center>
+		</td>
+	</tr>
+</table>
+
+## 2022.9.7 更新0.19
+
+- 增加请求包、响应包不同加密算法按钮【仅针对接口加解密模式】，针对于请求包、响应包使用不同的加密算法（实现方式为：在请求解密接口同时，传入参数`requestorresponse`，表明是请求[`request`]还是响应[`response`]）
+
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/48286013/188768352-f7d33440-0f13-4abe-bc6c-4cdb7abfd8ee.png">
+
+
 ## 2022.5.18 更新0.18
 
 - 增加`3DES加密`、 `AES加密`、 `JSON嵌套加密`两个例子
