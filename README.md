@@ -1,6 +1,12 @@
 # autoDecoder
 想维护成一个有很多用例、接口的项目，希望各位师傅有加解密之类的需求可以一起沟通，完善本项目。
 
+交流群
+
+<img width="292" alt="image" src="https://user-images.githubusercontent.com/48286013/201272474-373e5b00-549d-479e-bdf2-03971ebb7736.png">
+
+二维码失效请加微信`f-f0ng`、备注autoDecoder交流
+
 ## 有问题先到[FAQ](https://github.com/f0ng/autoDecoder/blob/main/FAQ.md)查看
 
 目前已有的例子如下：
