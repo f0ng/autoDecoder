@@ -83,7 +83,7 @@ ImmutableMultiDict([('dataBody', 'dCtLdlmk7wI='), ('requestorresponse', 'respons
 
 ### 函数出参为
 
-#### 3.`body`(当未勾选对请求头加密时)
+#### 4.1`body`(当未勾选对请求头加密时)
 
 传入的为请求体，传出的为处理后的请求体
 
@@ -93,7 +93,7 @@ I9z1fsH5QQ2NUbJi/7a8lw==
 
 
 
-#### 4.`headers + "\r\n\r\n\r\n\r\n" + body`(当勾选对请求头加密时)
+#### 4.2.`headers + "\r\n\r\n\r\n\r\n" + body`(当勾选对请求头加密时)
 
 传入的为请求头与请求体，传出的为处理后的请求头与请求体（这里未处理请求体，所以请求体是未处理过的）
 
