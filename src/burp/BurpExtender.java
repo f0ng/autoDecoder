@@ -40,7 +40,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
         callbacks.setExtensionName("autoDecoder");
         this.stdout.println("=======================================");
         this.stdout.println("[+]          load successful!          ");
-        this.stdout.println("[+]         autoDecoder v0.16          ");
+        this.stdout.println("[+]         autoDecoder v0.19          ");
         this.stdout.println("[+]            code by f0ng            ");
         this.stdout.println("[+] https://github.com/f0ng/autoDecoder");
         this.stdout.println("=======================================");
@@ -102,8 +102,10 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
     @Override
     public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequestResponse iHttpRequestResponse) { //处理请求包
         // 当proxy、intruder、repeater模块的时候调用加解密
-            if ( (toolFlag == IBurpExtenderCallbacks.TOOL_REPEATER ) || (toolFlag == IBurpExtenderCallbacks.TOOL_INTRUDER ) || (toolFlag == IBurpExtenderCallbacks.TOOL_PROXY )){
-            if( (IndexautoDecoder.getRadioButton1State() || IndexautoDecoder.getRadioButton2State()) && messageIsRequest ) { // 请求的时候
+            if ( (toolFlag == IBurpExtenderCallbacks.TOOL_REPEATER ) || (toolFlag == IBurpExtenderCallbacks.TOOL_INTRUDER ) ||
+                    (toolFlag == IBurpExtenderCallbacks.TOOL_PROXY )|| (toolFlag == IBurpExtenderCallbacks.TOOL_EXTENDER )){
+
+            if( (IndexautoDecoder.getRadioButton1State() || IndexautoDecoder.getRadioButton2State()) && messageIsRequest ) { // 请求的时候 todo
 
                 isDecoded = false;
                 ishost = false;
@@ -130,7 +132,6 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                             if(host_value.replace("*", "").replaceAll(":(.*)", "").endsWith(host.replace("*", "")))
                                 ishost = true;
                         }
-                        // todo 端口设置问题
                         if ( header.endsWith(host.replace("*", "")) || host_value.replace("*", "").replaceAll(":(.*)", "").endsWith(host.replace("*", "")) ||
                                 header.replace("*", "").endsWith(host.replace("*", ""))) {
 
@@ -140,20 +141,24 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                     }
                 }
                 //System.out.println("124");
-                String encodeWords = IndexautoDecoder.gettextArea2();
+                String encodeWords = IndexautoDecoder.gettextArea2(); // 加密关键字
                 String[] encodeWords_lists = encodeWords.split("\n");
                 for (String encodeWords_single : encodeWords_lists) {
-                    System.out.println((new String(body)));
-                    System.out.println(encodeWords_single);
-
                     if ( (new String(body).contains(encodeWords_single)) )
                         isWords = true;
-                    System.out.println(isWords);
+                    //System.out.println(isWords);
+                }
+
+                String not_encodeWords = IndexautoDecoder.gettextArea3(); // 不加密关键字
+                String[] not_encodeWords_lists = not_encodeWords.split("\n");
+                for (String not_encodeWords_single : not_encodeWords_lists) {
+                    if ( (new String(body).contains(not_encodeWords_single)) && !not_encodeWords_single.equals("")  )
+                        isWords = false;
+                    //System.out.println(isWords);
                 }
 
                 if ( ishost && isWords) {
-                //if ((new String(body).contains("\"") || new String(body).contains(":")) && ishost) {
-                    // todo 当请求体 里有"或者:的时候默认为明文，但是可能不能兼容所有情况
+
                     isDecoded = true;
                     String decodeBody = null;
                     //System.out.println("131");
@@ -161,7 +166,6 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                     if (IndexautoDecoder.getRadioButton3State() && IndexautoDecoder.getRadioButton2State()) { // 当选中了对请求头进行处理
                         //System.out.println("134");
                         String totalHeaders = "";
-                        // todo 对接口处理，传入参数为接口的数组、请求体
                         for (String singleheader : headersList)
                             totalHeaders = totalHeaders + singleheader + "\r\n";
                         String[] decodeTotal = null;
@@ -173,8 +177,8 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                             e.printStackTrace();
                         }
                         assert decodeTotal != null;
-                        stdout.println(decodeTotal);
-                        stdout.println(decodeTotal[0]);
+                        //stdout.println(decodeTotal);
+                        //stdout.println(decodeTotal[0]);
                         if (decodeTotal.length == 1) { // 判断decodeTotal的长度是不是为1，也就是请求体无参数
 
                             byte[] httpmsgresp = helpers.buildHttpMessage(Arrays.asList(decodeTotal[0].split("\r\n")), "".getBytes());
@@ -225,12 +229,15 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                     String[] decodeTotal2 = null;
                     if (IndexautoDecoder.getRadioButton3State() && IndexautoDecoder.getRadioButton2State()) { // 如果选中 通过接口进行加解密
                         String totalHeaders = ""; // 0.16更新
-                        // todo 对接口处理，传入参数为接口的数组、请求体
                         for (String singleheader : headersList)
                             totalHeaders = totalHeaders + singleheader + "\r\n";
 
                         try {
-                            decodeTotal2 = sendPostnewHeader(IndexautoDecoder.getDecodeApi(), new String(body),totalHeaders);
+                            if (IndexautoDecoder.getRadioButton4State()){ // 如果选中了请求包、响应包分开解密
+                                decodeTotal2 = sendPostnewHeader(IndexautoDecoder.getDecodeApi(), new String(body), totalHeaders ,"response");
+                            }else {
+                                decodeTotal2 = sendPostnewHeader(IndexautoDecoder.getDecodeApi(), new String(body), totalHeaders);
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -257,7 +264,11 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
 
                             String decodeTotal = null;
                             try {
-                                decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body));
+                                if (IndexautoDecoder.getRadioButton4State()){ // 如果选中了请求包、响应包分开解密
+                                    decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body) ,"response");
+                                }else {
+                                    decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body));
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -318,13 +329,11 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                                     flag = true;
                                 break;
                             }
-                            // todo 端口设置问题
                             if ( header.endsWith(host.replace("*", "")) || host_value.replace("*", "").replaceAll(":(.*)", "").endsWith(host.replace("*", "")) ||
                                     header.replace("*", "").endsWith(host.replace("*", ""))) {
                                 flag = true; //返回true
                                 break;
                             }
-
                         }
                     }
                 }else{ // 响应包也需要解密模块
@@ -338,21 +347,20 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
             return flag;
         }
 
-        //我们要在消息编辑器中显示的消息
+        //我们要在消息编辑器中显示的消息，在额外的扩展栏
         //比如对content解密、添加额外内容、或者替换掉再返回到消息编辑器中
         public void setMessage(byte[] content,boolean isRequest){
             //参数content byte[]即是getMessage中获取的iTextEditor中的文本
             //参数isRequest boolean即表示当前是request请求 还是 response接收的数据
             //当isRequest true表示request false表示response
             try{
-                if(isRequest){// 判断当请求为request才处理数据
+                if(isRequest){// 判断当请求为request才处理数据 todo
                     IRequestInfo requestInfo = helpers.analyzeRequest(content);
                     int bodyOffset = requestInfo.getBodyOffset();
                     byte[] body = Arrays.copyOfRange(content, bodyOffset, content.length);
                     List<String> headersList = requestInfo.getHeaders();
 
                     if (IndexautoDecoder.getRadioButton1State()) { // 如果选中 通过加解密算法进行加解密
-                        //if (new String(body).contains("\"") || new String(body).contains("'")) {
                         if(isWords){ // 如果请求的是明文，则正常显示明文
                             iTextEditor.setText(content);
                         } else { // 如果请求的不是明文，则会通过加密
@@ -366,56 +374,73 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                     }
 
                     if (IndexautoDecoder.getRadioButton2State()) { // 如果选中 通过接口进行加解密
-                        //if (IndexautoDecoder.getRadioButton3State()){ // 当选中了对请求头进行处理
-                        //    if ((new String(body).contains("\"") || new String(body).contains("'"))) {
-                        //        iTextEditor.setText(content);
-                        //    } else {
-                        //        StringBuilder totalHeaders = new StringBuilder();
-                        //        // todo 对接口处理，传入参数为接口的数组、请求体
-                        //        for (String singleheader : headersList)
-                        //            totalHeaders.append(singleheader).append("\r\n");
-                        //
-                        //        String decodeTotal = sendPostnewHeader(IndexautoDecoder.getDecodeApi(), new String(body),totalHeaders);
-                        //        iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
-                        //    }
-                        //}else {
-                        //    if ((new String(body).contains("\"") || new String(body).contains("'"))) {
+
                         if (isWords){
                                 iTextEditor.setText(content);
                             } else {
-                                StringBuilder totalHeaders = new StringBuilder();
+                                String totalHeaders = "";
                                 for (String singleheader : headersList)
-                                    totalHeaders.append(singleheader).append("\r\n");
+                                    totalHeaders = totalHeaders + singleheader + "\r\n";
 
-                                String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body));
-                                iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
-                            //}
+                                if ( IndexautoDecoder.getRadioButton3State() ) { // 对请求头进行加密
+
+                                    if (IndexautoDecoder.getRadioButton4State()) { // 如果选中了请求包、响应包分开解密
+                                        String[] decodeTotal = sendPostnewHeader(IndexautoDecoder.getDecodeApi(), new String(body), totalHeaders, "request");
+                                        stdout.println(decodeTotal[0]);
+                                        iTextEditor.setText((decodeTotal[0] + "\r\n" + decodeTotal[1]).getBytes());
+                                    } else {
+                                        String[] decodeTotal = sendPostnewHeader(IndexautoDecoder.getDecodeApi(), new String(body) , totalHeaders);
+                                        iTextEditor.setText((decodeTotal[0] + "\r\n" + decodeTotal[1]).getBytes());
+                                    }
+                                }else{
+                                    if (IndexautoDecoder.getRadioButton4State()) { // 如果选中了请求包、响应包分开解密
+                                        String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body), "request");
+                                        iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
+                                    } else {
+                                        String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body));
+                                        iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
+                                    }
+                                }
+
                         }
                     }
 
-                }else { // 处理响应包的数据
+                }else { // 处理响应包的数据 todo
                     IRequestInfo requestInfo = helpers.analyzeRequest(content);
                     int bodyOffset = requestInfo.getBodyOffset();
                     byte[] body = Arrays.copyOfRange(content, bodyOffset, content.length);
                     List<String> headersList = requestInfo.getHeaders();
                     String[] DecodeParams = IndexautoDecoder.getDecodeParams(); // 获取解密数组
-                    if (IndexautoDecoder.getRadioButton1State()) { // 如果选中 通过加解密算法进行加解密
-                        String decodeBody = decryptKeyivmode(new String(body), DecodeParams[5], DecodeParams[6], DecodeParams[0], DecodeParams[1], DecodeParams[2], DecodeParams[3], DecodeParams[4]);
-                        String totalHeaders = "";
-                        for (String singleheader : headersList)
-                            totalHeaders = totalHeaders + singleheader + "\r\n";
-                        iTextEditor.setText((totalHeaders + "\r\n" + decodeBody).getBytes());
-                    }
 
-                    if (IndexautoDecoder.getRadioButton2State()) { // 如果选中 通过接口进行加解密
-                        String totalHeaders = "";
-                        for (String singleheader : headersList)
-                            totalHeaders = totalHeaders + singleheader + "\r\n";
+                    if(isWords){
+                        iTextEditor.setText(content);
+                    }else {
 
-                        String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(),new String(body));
+                        if (IndexautoDecoder.getRadioButton1State()) { // 如果选中 通过加解密算法进行加解密
+                            String decodeBody = decryptKeyivmode(new String(body), DecodeParams[5], DecodeParams[6], DecodeParams[0], DecodeParams[1], DecodeParams[2], DecodeParams[3], DecodeParams[4]);
+                            String totalHeaders = "";
+                            for (String singleheader : headersList)
+                                totalHeaders = totalHeaders + singleheader + "\r\n";
+                            iTextEditor.setText((totalHeaders + "\r\n" + decodeBody).getBytes());
+                        }
+
+                        if (IndexautoDecoder.getRadioButton2State()) { // 如果选中 通过接口进行加解密
+                            String totalHeaders = "";
+                            for (String singleheader : headersList)
+                                totalHeaders = totalHeaders + singleheader + "\r\n";
+
+
+                            if (IndexautoDecoder.getRadioButton4State()){ // 如果选中了请求包、响应包分开解密
+                                String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body) ,"response");
+                                iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
+                            }else {
+                                String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body));
+                                iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
+                            }
 //                        System.out.println(decodeTotal);
-                        iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
 
+
+                        }
                     }
 
                 }
@@ -471,6 +496,33 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
         return result;
     }
 
+    /***
+     * 增加是请求还是响应的参数
+     * @param url
+     * @param param
+     * @param requestorresponse
+     * @return
+     * @throws IOException
+     */
+    public static String sendPostnew(String url, String param,String requestorresponse) throws IOException {
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        RequestBody requestBody = new FormBody.Builder()
+                .add("dataBody",param)
+                .add("requestorresponse",requestorresponse)
+                .build();
+
+
+        Request request = new Request.Builder()
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .url(url)
+                .post(requestBody)
+                .build();
+
+        String result = okHttpClient.newCall(request).execute().body().string();
+        return result;
+    }
+
     public static String[] sendPostnewHeader(String url, String param,String headers) throws IOException {
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -493,6 +545,41 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
 
         return result_list;
     }
+
+    /**
+     * 增加是请求还是响应的参数
+     * @param url
+     * @param param
+     * @param headers
+     * @param requestorresponse
+     * @return
+     * @throws IOException
+     */
+    public static String[] sendPostnewHeader(String url, String param,String headers,String requestorresponse) throws IOException {
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        RequestBody requestBody = new FormBody.Builder()
+                .add("dataBody",param)
+                .add("dataHeaders", headers)
+                .add("requestorresponse",requestorresponse)
+                .build();
+
+
+        Request request = new Request.Builder()
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .url(url)
+                .post(requestBody)
+                .build();
+
+        String result = okHttpClient.newCall(request).execute().body().string();
+        String[] result_list = result.split("\r\n\r\n\r\n\r\n");
+        //System.out.println(result_list[0]);
+        //System.out.println(result_list[1]);
+
+        return result_list;
+    }
+
+
 
 
 }
