@@ -7,6 +7,8 @@
 
 二维码失效请加微信`f-f0ng`、备注autoDecoder交流
 
+关注主页公众号（only security），回复`autodecoder`获取下载地址】
+
 ## 有问题先到[FAQ](https://github.com/f0ng/autoDecoder/blob/main/FAQ.md)查看
 
 目前已有的例子如下：
