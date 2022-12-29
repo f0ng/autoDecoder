@@ -1,8 +1,6 @@
 package com.autoDecoder.util;
 
-//import com.sun.org.apache.xml.internal.security.utils.Base64;
 import static com.autoDecoder.util.codeDecode.*;
-import java.util.Arrays;
 import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -10,7 +8,6 @@ import java.security.Security;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import sun.misc.BASE64Encoder;
 
 public class codeEncode {
     public static void main(String[] args) throws Exception {

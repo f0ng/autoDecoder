@@ -15,7 +15,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class BurpExtender extends AbstractTableModel  implements IBurpExtender, ITab, IMessageEditorController,IMessageEditorTabFactory ,IHttpListener{
+public class BurpExtender extends AbstractTableModel  implements IBurpExtender, ITab, IMessageEditorController,IMessageEditorTabFactory ,IHttpListener ,IMessageEditor{
 
     private static IBurpExtenderCallbacks callbacks;
 
@@ -151,6 +151,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
 
                 String not_encodeWords = IndexautoDecoder.gettextArea3(); // 不加密关键字
                 String[] not_encodeWords_lists = not_encodeWords.split("\n");
+
                 for (String not_encodeWords_single : not_encodeWords_lists) {
                     if ( (new String(body).contains(not_encodeWords_single)) && !not_encodeWords_single.equals("")  )
                         isWords = false;
@@ -158,10 +159,10 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                 }
 
                 if ( ishost && isWords) {
-
+//                    System.out.println(this.isTextModified());
                     isDecoded = true;
                     String decodeBody = null;
-                    //System.out.println("131");
+                    this.stdout.println();
 
                     if (IndexautoDecoder.getRadioButton3State() && IndexautoDecoder.getRadioButton2State()) { // 当选中了对请求头进行处理
                         //System.out.println("134");
@@ -281,6 +282,41 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
         }
     }
 
+    @Override
+    public Component getComponent() {
+        stdout.println("1");
+        return null;
+    }
+
+    @Override
+    public void setMessage(byte[] bytes, boolean b) {
+        stdout.println("2");
+    }
+
+    @Override
+    public byte[] getMessage() {
+        stdout.println("3");
+        return new byte[0];
+    }
+
+    @Override
+    public boolean isMessageModified() {
+        stdout.println("4");
+        return false;
+    }
+
+    @Override
+    public byte[] getSelectedData() {
+        stdout.println("5");
+        return new byte[0];
+    }
+
+    @Override
+    public int[] getSelectionBounds() {
+        stdout.println("6");
+        return new int[0];
+    }
+
 
     class iMessageEditorTab implements IMessageEditorTab{
         //实例化iTextEditor返回当前加密数据显示的组件包括加密数据内容
@@ -299,6 +335,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
         //我们需要的则不生成消息编辑器
         //比如 消息中包含“param”字段、host为www.test.com才生成消息编辑器
         //则如果请求包含它们返回true
+
         public boolean isEnabled(byte[] content,boolean isRequest){
             //参数content byte[]即是getMessage中获取的iTextEditor中的文本
             //参数isRequest boolean即表示当前文本是request请求 还是 response接收的数据
@@ -392,13 +429,14 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
                                         String[] decodeTotal = sendPostnewHeader(IndexautoDecoder.getDecodeApi(), new String(body) , totalHeaders);
                                         iTextEditor.setText((decodeTotal[0] + "\r\n" + decodeTotal[1]).getBytes());
                                     }
-                                }else{
+                                }else{ // 不对请求头进行加密
                                     if (IndexautoDecoder.getRadioButton4State()) { // 如果选中了请求包、响应包分开解密
                                         String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body), "request");
                                         iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
                                     } else {
                                         String decodeTotal = sendPostnew(IndexautoDecoder.getDecodeApi(), new String(body));
                                         iTextEditor.setText((totalHeaders + "\r\n" + decodeTotal).getBytes());
+
                                     }
                                 }
 

@@ -16,10 +16,11 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class codeDecode {
     public static void main(String[] args) throws Exception {
+
         String a = decryptKeyivmode("7AMxtnv6XZEek1DK2PLloZaZu7q7bdMFHeLsgdwMEqckFhLmiiURV0vqUof1lLpvas4DjjYj1fM=",
                 "adDRX4Fo1G7C0m3bWqihLwZS2xzpK4sr","12101754","DESede","CBC","PKCS5Padding","Base64","无");
-
         System.out.println(a);
+
     }
 
     public static byte[] decrypt2(byte[] array) {
@@ -86,8 +87,11 @@ public class codeDecode {
                 aseKey = Base64.getDecoder().decode(sessionKey);
                 ivData = Base64.getDecoder().decode(iv);
             }else if(keyivmode.equals("Hex")) {
+
                 aseKey = hexToByteArray(sessionKey);
                 ivData = hexToByteArray(iv);
+                System.out.println(iv);
+                System.out.println(ivData);
             }else {
                 aseKey = sessionKey.getBytes(StandardCharsets.UTF_8);
                 ivData = iv.getBytes(StandardCharsets.UTF_8);
@@ -100,6 +104,7 @@ public class codeDecode {
             if (ivmode.equals("ECB") || ivmode.equals("GCM")) { // 如果为ECB、GCM模式，不进行偏移量加载
                 cipher.init(Cipher.DECRYPT_MODE, sKeySpec);
             } else {
+                System.out.println(ivData.length);
                 cipher.init(Cipher.DECRYPT_MODE, sKeySpec, ivParameterSpec);
             }
 
