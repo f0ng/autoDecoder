@@ -29,6 +29,8 @@
 
 8. [JSON嵌套加密](https://github.com/f0ng/autoDecoder/blob/main/autoDecoder%E4%BE%8B%E5%AD%90/JSON%E5%B5%8C%E5%A5%97%E5%8A%A0%E5%AF%86/JSON%E5%B5%8C%E5%A5%97%E5%8A%A0%E5%AF%86.md)——使用python的flask框架，解决json数据中嵌套一层base64编码的json加密数据的AES/ECB加解密
 
+9. [RSA解密](https://github.com/f0ng/autoDecoder/tree/main/autoDecoder%E4%BE%8B%E5%AD%90/RSA%E8%A7%A3%E5%AF%86)——使用python的flask框架，解决分段RSA加密
+
 ## 简单流程图
 
 <table rules="none" align="center">
@@ -57,16 +59,39 @@
 	</tr>
 </table>
 
+## 2023.1.5 更新0.20
+1. 增加`RSA解密` 一个例子
+2. 优化选项卡数据包设置，不影响repeater本身的数据包内容
+<table rules="none" align="center">
+	<tr>
+		<td>
+			<center>
+   <font color="AAAAAA">解密请求包</font>
+				<img src="https://user-images.githubusercontent.com/48286013/210718969-8958c40d-cbee-47e7-8e97-97f6ba17b4e6.png" width="100%" />
+				<br/>
+			</center>
+		</td>
+		<td>
+			<center>
+   <font color="AAAAAA">解密请求包后不影响原请求包</font>
+				<img src="https://user-images.githubusercontent.com/48286013/210718946-888dc52f-a882-4026-ba92-2845a7ac81f7.png" width="100%" />
+				<br/>
+			</center>
+		</td>
+	</tr>
+</table>
+
 ## 2022.9.7 更新0.19
 
 - 增加请求包、响应包不同加密算法按钮【仅针对接口加解密模式】，针对于请求包、响应包使用不同的加密算法（实现方式为：在请求解密接口同时，传入参数`requestorresponse`，表明是请求[`request`]还是响应[`response`]）
 
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/48286013/188768352-f7d33440-0f13-4abe-bc6c-4cdb7abfd8ee.png">
 
+- 修改了ui，优化了在新版bp上`html`无法解析的问题
 
 ## 2022.5.18 更新0.18
 
-- 增加`3DES加密`、 `AES加密`、 `JSON嵌套加密`两个例子
+- 增加`3DES加密`、 `AES加密`、 `JSON嵌套加密`三个例子
 
 - 在明文发出请求的时候，如果响应包选中了默认选项卡，则无影响；但是当响应包选中了扩展选项卡，还会进行解密，导致请求包内的响应体报错，`0.18`修复该问题：明文发出请求，响应包只有明文。
 - 增加密文关键字，出现该关键字则不进行加密，具体可以查看例json嵌套加密
