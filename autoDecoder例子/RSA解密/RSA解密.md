@@ -1,7 +1,4 @@
----
-created: 2023-01-05T14:28:51+08:00
-updated: 2023-01-05T14:40:03+08:00
----
+
 遇到了一个RSA的加密，直接找到私钥，然后通过私钥去解密
 ![](photo/Pasted%20image%2020230105143101.png)
 
@@ -40,7 +37,8 @@ def decryption(text_encrypted_base64: str, private_key: bytes):
 def rsa_decrypt(s):  
     """  
     DES 解密    :param s: 加密后的字符串，16进制    :return:  解密后的字符串  
-    """    private_key = read_private_key() # 私钥  
+    """    
+    private_key = read_private_key() # 私钥  
     text_decrypted = decryption(s, private_key)  
   
     return text_decrypted  
