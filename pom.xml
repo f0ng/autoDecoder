@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.f0ng.autoDecoder</groupId>
     <artifactId>autoDecoder</artifactId>
-    <version>0.19</version>
+    <version>0.20</version>
     <build>
         <sourceDirectory>src</sourceDirectory>
         <plugins>
