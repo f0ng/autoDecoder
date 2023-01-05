@@ -40,7 +40,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
         callbacks.setExtensionName("autoDecoder");
         this.stdout.println("=======================================");
         this.stdout.println("[+]          load successful!          ");
-        this.stdout.println("[+]         autoDecoder v0.19          ");
+        this.stdout.println("[+]         autoDecoder v0.20          ");
         this.stdout.println("[+]            code by f0ng            ");
         this.stdout.println("[+] https://github.com/f0ng/autoDecoder");
         this.stdout.println("=======================================");
@@ -392,6 +392,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
             //当isRequest true表示request false表示response
             try{
                 if(isRequest){// 判断当请求为request才处理数据 todo
+                    stdout.println(iTextEditor.getComponent());
                     IRequestInfo requestInfo = helpers.analyzeRequest(content);
                     int bodyOffset = requestInfo.getBodyOffset();
                     byte[] body = Arrays.copyOfRange(content, bodyOffset, content.length);
@@ -494,7 +495,7 @@ public class BurpExtender extends AbstractTableModel  implements IBurpExtender, 
 
         //允许修改消息
         public boolean isModified(){
-            return true;
+            return false;
         }
 
         //返回iTextEditor中选定的文本 没有选择的话 则不返回数据
