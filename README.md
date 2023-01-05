@@ -29,7 +29,7 @@
 
 8. [JSON嵌套加密](https://github.com/f0ng/autoDecoder/blob/main/autoDecoder%E4%BE%8B%E5%AD%90/JSON%E5%B5%8C%E5%A5%97%E5%8A%A0%E5%AF%86/JSON%E5%B5%8C%E5%A5%97%E5%8A%A0%E5%AF%86.md)——使用python的flask框架，解决json数据中嵌套一层base64编码的json加密数据的AES/ECB加解密
 
-9. [RSA解密](https://github.com/f0ng/autoDecoder/tree/main/autoDecoder%E4%BE%8B%E5%AD%90/RSA%E8%A7%A3%E5%AF%86)——使用python的flask框架，解决分段RSA加密
+9. [RSA解密](https://github.com/f0ng/autoDecoder/blob/main/autoDecoder%E4%BE%8B%E5%AD%90/RSA%E8%A7%A3%E5%AF%86/RSA%E8%A7%A3%E5%AF%86.md)——使用python的flask框架，解决分段RSA加密
 
 ## 简单流程图
 
