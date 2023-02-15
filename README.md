@@ -59,6 +59,51 @@
 	</tr>
 </table>
 
+## 2023.2.15 更新0.22 重大更新
+1. 重构UI页面，之前的UI太混乱，花了点时间重构了页面UI
+<img width="583" alt="image" src="https://user-images.githubusercontent.com/48286013/219077310-7a17115b-885e-47ba-8aaf-427acb55db8a.png">
+
+2. 增加自带算法加解密的正则提取，当正则表达式有内容时生效，针对两种情况: 
+	1. 只有请求加密的情况
+	2. 在爆破攻击中，对账号密码加密
+	
+	配置页面
+	
+	<img width="307" alt="image" src="https://user-images.githubusercontent.com/48286013/219077933-60e197ed-f940-473e-a394-242aedc1cc41.png">
+
+
+	<img width="852" alt="image" src="https://user-images.githubusercontent.com/48286013/219077869-b894b59e-eed3-48ff-bda4-ebf4f231e2e4.png">
+
+	
+	原始请求
+	
+	<img width="696" alt="image" src="https://user-images.githubusercontent.com/48286013/219077437-c5e793ee-9061-49ca-aadc-8061f9843c21.png">
+	
+	真实请求
+	
+	<img width="611" alt="image" src="https://user-images.githubusercontent.com/48286013/219077506-f81555ef-5d8f-44c3-a659-41c6afc0a50f.png">
+	
+	解密后
+	
+	<img width="628" alt="image" src="https://user-images.githubusercontent.com/48286013/219077634-92366e38-5176-4ee1-b7ad-b7de7bee96cf.png">
+
+
+3. 增加接口加解密时的调试页面，方便代码进一步编写
+
+正常解密请求包
+
+<img width="771" alt="image" src="https://user-images.githubusercontent.com/48286013/219079024-ef8fb2ce-0286-4a18-9e38-bdbe85ec742c.png">
+
+正常解密响应包
+
+<img width="747" alt="image" src="https://user-images.githubusercontent.com/48286013/219080446-5c135166-63cb-4c2e-ad66-0e57df1a39f2.png">
+
+
+处理请求头
+
+<img width="759" alt="image" src="https://user-images.githubusercontent.com/48286013/219079094-53e6f652-5038-4242-aa5f-0955310b6998.png">
+
+
 ## 2023.2.14 更新0.21
 1. 增加burp模块按钮，防止与其他模块(如插件Extender)产生的请求冲突
 2. 优化插件解密读取密文方式，进行URL解码后读取
