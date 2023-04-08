@@ -42,6 +42,11 @@
 	</tr>
 </table>
 
+## 2023.4.8 更新0.24
+1. 优化测试接口数据包显示
+2. 增加zeropadding填充模式加密
+3. 优化base64解码问题
+
 ## 2023.2.22 更新0.23
 1. 优化了插件的一些问题
 2. 案例移步[autoDecoder-usages](https://github.com/f0ng/autoDecoder-usages)
