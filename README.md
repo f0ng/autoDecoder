@@ -43,7 +43,7 @@
 </table>
 
 ## 2023.4.25 更新0.25
-1. 增加二进制处理，原理为将请求包的内容base64编码后传入接口，需要对burp做以下设置，否则获取到的编码为损坏的
+1. 增加二进制请求体、响应体处理，原理为将请求包的内容base64编码后传入接口，需要对burp做以下设置，否则获取到的编码为损坏的
 	- 需要勾选User options->Character Sets中的`Use the platform default(UTF-8)`[MAC]，或者勾选`Display as raw bytes`[Windows]
 
 ## 2023.4.14 更新0.24-beta2
