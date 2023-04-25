@@ -122,3 +122,13 @@ f0ng:test
 ## 0x04 项目不支持`pkcs7`加密？
 
 实际上是已经实现的，因为AES并没有64位的块, 如果采用PKCS5, 那么实质上就是采用PKCS7
+
+## 0x05 在burp中不出现`autoDecoder`选项卡?
+
+需要配置生效的域名
+
+## 0x06 使用二进制base64后数据被损坏
+
+需要修改一下burp的设置，具体修改如下：
+
+- 勾选User options->Character Sets中的`Use the platform default(UTF-8)`[Mac]，或者勾选`Display as raw bytes`[Windows]
