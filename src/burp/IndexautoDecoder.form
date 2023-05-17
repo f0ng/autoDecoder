@@ -140,7 +140,7 @@
               <text value="密文编码"/>
             </properties>
           </component>
-          <component id="2c95" class="javax.swing.JTextField" binding="keytextField">
+          <component id="2c95" class="javax.swing.JTextArea" binding="keytextField">
             <constraints>
               <grid row="5" column="1" row-span="1" col-span="7" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -148,7 +148,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="e4780" class="javax.swing.JTextField" binding="ivtextField">
+          <component id="e4780" class="javax.swing.JTextArea" binding="ivtextField">
             <constraints>
               <grid row="5" column="9" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
