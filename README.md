@@ -41,6 +41,11 @@
 		</td>
 	</tr>
 </table>
+
+## 2023.7.6 更新0.30
+1. 增加右键加密、解密，当设置好相应的方法后可以对请求体的body进行加密、解密
+2. 修复`Send to Repeater、Send to Intruder`不会带上端口号的问题
+   
 ## 2023.5.22 更新0.27
 1. autoDecoder扩展选项卡增加右键`Send to Repeater、Send to Intruder`，并且增加格式化，目前仅针对json格式
 
