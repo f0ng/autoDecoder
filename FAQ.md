@@ -137,3 +137,8 @@ f0ng:test
 ## 0x07 调试模块有换行存在
 
 这里是为了方便调试，自动加的换行，在repeater、intruder模块是没有换行的，所以不必担心
+
+
+## 0x08 调试模块可以正常进行加解密，但是在repeater、proxy模块没有获取正常变量(没有正常进行加解密)
+
+原因为调试模块是textarea数据包是字符串格式，而在repeater里是http包格式，所以在repeater、proxy模块中会有\r\n，在获取字符串的时候可以进行\r\n的替换即可
