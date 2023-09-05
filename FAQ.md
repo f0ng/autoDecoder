@@ -134,9 +134,9 @@ f0ng:test
 - 勾选User options->Character Sets中的`Use the platform default(UTF-8)`[Mac]，或者勾选`Display as raw bytes`[Windows]
 
 
-## 0x07 调试模块有换行存在
+~~## 0x07 调试模块有换行存在~~ 0.31版本删除
 
-这里是为了方便调试，自动加的换行，在repeater、intruder模块是没有换行的，所以不必担心
+~~这里是为了方便调试，自动加的换行，在repeater、intruder模块是没有换行的，所以不必担心~~
 
 
 ## 0x08 调试模块可以正常进行加解密，但是在repeater、proxy模块没有获取正常变量(没有正常进行加解密)
