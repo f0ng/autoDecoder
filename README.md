@@ -1,8 +1,8 @@
 # autoDecoder
 想维护成一个有很多用例、接口的项目，希望各位师傅有加解密之类的需求可以一起沟通，完善本项目。
 
-# 案例移步[autoDecoder-usages](https://github.com/f0ng/autoDecoder-usages)
-
+# 关于autoDecoder的案例移步[autoDecoder-usages](https://github.com/f0ng/autoDecoder-usages)，对很多想自行编写接口的师傅会有帮助
+# 接口代码模板不要随便去改动获取参数和返回的格式，否则会出现乱码、无法正常运行等问题
 交流群
 
 <img width="183" alt="image" src="https://user-images.githubusercontent.com/48286013/220634169-ddefd4b2-d967-4a85-8b28-b626ba366742.png">
