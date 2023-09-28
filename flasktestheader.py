@@ -12,9 +12,9 @@ def encrypt():
     headers = request.form.get('dataHeaders')  # 获取  post 参数  可选
 
     if headers != None: # 开启了请求头加密
-        print(headers + "\r\n\r\n\r\n\r\n" + body)
         headers = headers + "aaaa:bbbb\r\n"
-        headers = headers + "f0ng:test\r\n"
+        headers = headers + "f0ng:test"
+        print(headers + "\r\n\r\n\r\n\r\n" + body)
         return headers + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改
 
     return  body
@@ -26,7 +26,7 @@ def decrypt():
     if headers != None: # 开启了响应头加密
         print(headers + "\r\n\r\n\r\n\r\n" + body)
         headers = headers + "yyyy:zzzz\r\n"
-        headers = headers + "f0ng:onlysecurity\r\n"
+        headers = headers + "f0ng:onlysecurity"
         return headers + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改
 
     return body
