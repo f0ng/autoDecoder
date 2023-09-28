@@ -37,7 +37,7 @@ def encrypt():
     encry_param = des_encrypt(param.strip("\n"))
     print(param)
     print(encry_param)
-    return encry_param.strip("\n")
+    return encry_param
 
 @app.route('/decode',methods=["POST"])
 def decrypt():
@@ -45,7 +45,7 @@ def decrypt():
     decrypt_param = des_decrypt(param.strip("\n"))
     print(param)
     print(decrypt_param)
-    return decrypt_param.strip("\n")
+    return decrypt_param
 
 if __name__ == '__main__':
     app.debug = True # 设置调试模式，生产模式的时候要关掉debug
