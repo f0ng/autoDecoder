@@ -42,6 +42,20 @@
 	</tr>
 </table>
 
+## 2023.11.22 更新0.35
+1. 增加加载配置文件、保存配置文件的模块，后续使用可以根据配置文件的命名来进行加载配置
+2. 增加请求、响应替换功能，类似burp的`Match and Replace`模块，增加提取模块，案例配置如下
+
+<img width="1187" alt="image" src="https://github.com/f0ng/autoDecoder/assets/48286013/a5d82e7b-5db3-43e8-90d1-863f0d1629a5">
+
+正常响应
+
+<img src="https://github.com/f0ng/autoDecoder/assets/48286013/dacf44a6-3687-4eab-b716-2186a25f538d" width="450" />
+
+修改后的响应
+
+<img src="https://github.com/f0ng/autoDecoder/assets/48286013/c1a33b8a-9d2a-4469-ac8a-9cd709bab286" width="450" />
+
 ## 2023.11.11 更新0.34
 1. 增加header头关键字判断
 
