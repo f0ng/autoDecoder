@@ -24,7 +24,7 @@ def encrypt():
         param_uri_total = param_uri + "&b=22222222"
         headers = headers.replace(param_uri, param_uri_total, 1) # 用修改后的uri替换原参数中的uri
         headers = headers + "aaaa:bbbb\r\n"
-        headers = headers + "f0ng:test\r\n"
+        headers = headers + "f0ng:test"
         print(headers + "\r\n\r\n\r\n\r\n" + body)
         return headers + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改 必需必需必需
 ################################################################
@@ -46,7 +46,7 @@ def decrypt():
         param_uri_total = param_uri + "&b=22222222"
         headers = headers.replace(param_uri, param_uri_total, 1) # 用修改后的uri替换原参数中的uri
         headers = headers + "yyyy:zzzz\r\n"
-        headers = headers + "f0ng:onlysecurity\r\n"
+        headers = headers + "f0ng:onlysecurity"
         return headers.replace(param_uri,param_uri_total,1) + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改 必需必需必需
 ################################################################
 ################################################################
