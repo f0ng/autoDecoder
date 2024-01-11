@@ -4,6 +4,8 @@
 
 2. 加解密的时候核对一下三个地方的参数:
 
+【明文关键字与密文关键字不可重复，否则取密文关键字的判断优先】
+
 `加解密的域名` 只有出现该域名的请求包会进行加解密操作(`autoDecoder`选项卡与此参数有关)
 
 `明文关键字` 当请求体内出现该关键字即进行加解密操作(换行符为分隔符，支持多个关键字)
@@ -33,7 +35,7 @@
 
 ### 函数入参为
 
-#### 1.`dataBody` 请求体，传参为flask框架传参，示例：
+#### 1.`dataBody` 请求体，传参为flask框架传参，使用`body = request.form.get('dataBody')`获取，以下示例为整个flask对象[打印request.form]：
 
 正常POST格式(application/x-www-form-urlencoded)
 
@@ -45,7 +47,7 @@ JSON格式(application/json)
 
 
 
-#### 2.`dataHeaders `请求头，示例：
+#### 2.`dataHeaders `请求头，使用`headers = request.form.get('dataHeaders')`获取，以下示例为整个flask对象[打印request.form]：
 
 ```java
 ImmutableMultiDict([('dataBody', '{"id":"1"}'), ('dataHeaders', 'POST /0828/testsql.php HTTP/1.1\r\nHost: 10.211.55.4\r\nUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:104.0) Gecko/20100101 Firefox/104.0\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\r\nAccept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2\r\nAccept-Encoding: gzip, deflate\r\nConnection: keep-alive\r\nUpgrade-Insecure-Requests: 1\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: 39\r\n')])
@@ -68,14 +70,14 @@ Content-Length: 39
 {"id":"1"}
 ```
 
-获取相应参数的代码如下（flask框架的读取参数方法）：
+获取相应参数的代码如下（flask框架的读取参数方法，也可以用其他框架，这里仅以flask进行举例）：
 
 ```
 body = request.form.get('dataBody')  # 获取  post 参数 必需
 headers = request.form.get('dataHeaders')  # 获取  post 参数  可选
 ```
 
-#### 3.`requestorresponse`标识为请求包还是响应包(可选为request和response)，示例：
+#### 3.`requestorresponse`标识为请求包还是响应包(可选为request和response)，使用`reqresp = request.form.get('requestorresponse')`获取参数，以下示例为整个flask对象[打印request.form]：
 ```Java
 ImmutableMultiDict([('dataBody', 'dCtLdlmk7wI='), ('requestorresponse', 'response')])
 ```
