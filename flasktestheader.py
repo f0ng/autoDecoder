@@ -6,7 +6,7 @@ from pyDes import *
 import base64,re
 app = Flask(__name__)
 
-@app.route('/encode',methods=["POST"])
+@app.route('/encode',methods=["POST"]) # 不要修改 不要修改 不要修改 永远都是POST获取参数，不管源数据包GET方法还是POST方法
 def encrypt():
     body = request.form.get('dataBody')  # 获取  post 参数 必需必需必需   获取数据包内body的内容
     headers = request.form.get('dataHeaders')  # 获取  post 参数  可选   获取数据包内的数据头，需要勾选<对数据头进行处理>按钮
@@ -37,7 +37,7 @@ def encrypt():
 
     return  body  # 返回值为固定格式，不可更改 必需必需必需
 
-@app.route('/decode',methods=["POST"]) # 不解密
+@app.route('/decode',methods=["POST"]) # 不要修改 不要修改 不要修改 永远都是POST获取参数，不管源数据包GET方法还是POST方法
 def decrypt():
     body = request.form.get('dataBody')  # 获取  post 参数 必需必需必需   获取数据包内body的内容
     headers = request.form.get('dataHeaders')  # 获取  post 参数  可选   获取数据包内的数据头，需要勾选<对数据头进行处理>按钮
