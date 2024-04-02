@@ -5,6 +5,9 @@
 
 # 关于autoDecoder的案例移步[autoDecoder-usages](https://github.com/f0ng/autoDecoder-usages)，对很多想自行编写接口的师傅会有帮助
 # 接口代码模板不要随便去改动获取参数和返回的格式，否则会出现乱码、无法正常运行等问题
+
+
+
 交流群
 
 <img width="183" alt="image" src="https://user-images.githubusercontent.com/48286013/220634169-ddefd4b2-d967-4a85-8b28-b626ba366742.png">
@@ -13,8 +16,12 @@
 
 关注主页公众号（only security），回复`autodecoder`获取下载地址】
 
-## 有问题先到[FAQ](https://github.com/f0ng/autoDecoder/blob/main/FAQ.md)查看
+# 捐赠 （如果项目有帮助到您，可以选择捐赠一些费用用于autoDecoder的后续版本维护，本项目长期维护）
+<img width="251" alt="image" src="https://github.com/f0ng/autoDecoder/assets/48286013/5151b992-b98a-4cef-a6c7-e83e068eb363">
 
+<img width="251" alt="image" src="https://github.com/f0ng/autoDecoder/assets/48286013/e9318b91-2521-4c14-93d8-9737fd7a4729">
+
+## 有问题先到[FAQ](https://github.com/f0ng/autoDecoder/blob/main/FAQ.md)查看
 
 ## 简单流程图
 
