@@ -28,7 +28,7 @@ public class Utils {
     private static JMenuItem menuRepeater;
     private static JMenuItem menuReissue;
     private static JMenuItem menuCopy;
-    private static JMenuItem menuCopySmart;
+//    private static JMenuItem menuCopySmart;
 
     public static void applyThemeToRSyntaxTextArea(RSyntaxTextArea area, String themeName) {
         try {
@@ -57,7 +57,7 @@ public class Utils {
         menuRepeater = new JMenuItem("Send to Repeater");
         menuRepeater.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-
+//                BurpExtender.helpers.
                 IRequestInfo requestInfo = BurpExtender.helpers.analyzeRequest(hackvertorInput.getText().getBytes());
                 BurpExtender.stdout.println(requestInfo);
 //                c_sendToRepeater(ihttpreqresp);
@@ -67,8 +67,6 @@ public class Utils {
                     BurpExtender.stdout.println(e.getMessage());
                 }
 //                BurpExtender.stdout.println(hackvertorInput.getText());
-
-
 
             }
         });
@@ -113,13 +111,23 @@ public class Utils {
         String host = null;
         int port = 0;
         List<String> headersList = iRequestInfo.getHeaders();
+
+//        BurpCallbacks.getInstance().sendToRepeater();
+
+//        new StandaloneBurpRequestInfo(iRequestInfo.get);
+
+//        if (iRequestInfo.getUrl().toString().contains("https"))
+//            BurpExtender.usehttps = true;
+
         for (String header : headersList) {
-            String[] host_lists = header.split(":");
+            String[] host_lists = header.split(":",2);
             if (host_lists[0].toLowerCase().equals("host")) {
                 host = headersTohost(host_lists[1]).trim();
                 port = headersToport(host_lists[1],BurpExtender.usehttps);
             }
         }
+
+        BurpExtender.stdout.println(BurpExtender.usehttps);
         BurpExtender.callbacks.sendToRepeater(
                 host,
                 port,
@@ -128,12 +136,18 @@ public class Utils {
                 "autoDecoder");
     }
 
+//    public void cc_sendToRepeater() {
+//        BurpCallbacks.getInstance().sendToRepeater(httpMessage);
+//    }
+
     public static void c_sendToIntruder(IRequestInfo iRequestInfo,byte[] request) {
         String host = null;
         int port = 0;
         List<String> headersList = iRequestInfo.getHeaders();
+//        if (iRequestInfo.getUrl().getProtocol().contains("https"))
+//            BurpExtender.usehttps = true;
         for (String header : headersList) {
-            String[] host_lists = header.split(":");
+            String[] host_lists = header.split(":",2);
             if (host_lists[0].toLowerCase().equals("host")) {
                 host = headersTohost(host_lists[1]).trim();
                 port = headersToport(host_lists[1],BurpExtender.usehttps);

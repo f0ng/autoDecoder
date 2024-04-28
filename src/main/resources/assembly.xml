@@ -1,0 +1,37 @@
+<assembly>
+
+    <id>jar-with-dependences</id><!-- 配置文件的标识，同时生成的jar包名字会把这个文本包含进去 -->
+
+    <formats>
+
+        <format>jar</format><!-- 打包类型，此处为jar -->
+
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <dependencySets>
+
+        <dependencySet>
+
+            <unpack>true</unpack><!-- 是否解压 -->
+
+            <scope>runtime</scope>
+
+        </dependencySet>
+
+    </dependencySets>
+
+    <fileSets>
+
+        <fileSet>
+
+            <directory>${project.build.outputDirectory}</directory>
+
+            <outputDirectory>/</outputDirectory>
+
+        </fileSet>
+
+    </fileSets>
+
+</assembly>

@@ -31,7 +31,7 @@ public class TestDecode {
         String Output = "";
         String decodeTotal = "";
         String[] decodeTotallists = null;
-        Data = Data + "\n\n";
+//        Data = Data + "\n\n";
         String[] DataLists = Data.replace("\r", "").split("\n\n",2);
 //        if (DataLists.length > 1) { // POST
 
@@ -41,7 +41,11 @@ public class TestDecode {
                 if (decodeTotallists.length == 1) {
                     Output = decodeTotallists[0];
                 } else {
-                    Output = decodeTotallists[0] + "\n" + decodeTotallists[1];
+                    if (decodeTotallists[0].endsWith("\n"))
+                        Output = decodeTotallists[0] + "\n" + decodeTotallists[1];
+                    else{
+                        Output = decodeTotallists[0] + "\n\n" + decodeTotallists[1];
+                    }
                 }
 
             } else {
@@ -50,7 +54,11 @@ public class TestDecode {
                     if (decodeTotallists.length == 1) {
                         Output = decodeTotallists[0];
                     } else {
-                        Output = decodeTotallists[0] + "\n" + decodeTotallists[1];
+                        if (decodeTotallists[0].endsWith("\n"))
+                            Output = decodeTotallists[0] + "\n" + decodeTotallists[1];
+                        else{
+                            Output = decodeTotallists[0] + "\n\n" + decodeTotallists[1];
+                        }
                     }
                 }
 
@@ -64,7 +72,8 @@ public class TestDecode {
                     Output = Data.replace(DataLists[1], decodeTotal);
                 }
             }
-            return Output.trim()+"\n\n";
+            return Output.trim();
+//        return Output.trim()+"\n\n";
 //        }else{ // GET
 //
 //            if (IndexautoDecoder.getRadioButtontestHeaderState() && IndexautoDecoder.getRadioButtontestdifferentState()) { // 选中对数据头处理、选中请求响应分开

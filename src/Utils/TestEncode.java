@@ -1,6 +1,10 @@
 package Utils;
 
 import burp.IndexautoDecoder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 
@@ -14,14 +18,22 @@ import static burp.BurpExtender.sendPostnewHeader;
  */
 public class TestEncode {
     public static void main(String[] args) {
+        System.out.println(beauty("{\"aaaa\":\"axxx\"}"));
+    }
 
+    public static String beauty(String inputJson) {
+        //Take the input, determine request/response, parse as json, then print prettily.
+        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().serializeNulls().create();
+        JsonParser jp = new JsonParser();
+        JsonElement je = jp.parse(inputJson);
+        return gson.toJson(je);
     }
 
     public static String TestEncode(String Data,String reqorresp) throws IOException {
         String Output = "";
         String decodeTotal = "";
         String[] decodeTotallists = null;
-        Data = Data + "\n\n";
+//        Data = Data + "\n\n";
         String[] DataLists = Data.replace("\r", "").split("\n\n",2);
 //        if (DataLists.length > 1) { // POST
 
@@ -31,7 +43,11 @@ public class TestEncode {
                 if (decodeTotallists.length == 1) {
                     Output = decodeTotallists[0];
                 } else {
+                    if (decodeTotallists[0].endsWith("\n"))
                     Output = decodeTotallists[0] + "\n" + decodeTotallists[1];
+                    else{
+                        Output = decodeTotallists[0] + "\n\n" + decodeTotallists[1];
+                    }
                 }
 
             } else {
@@ -40,7 +56,11 @@ public class TestEncode {
                     if (decodeTotallists.length == 1) {
                         Output = decodeTotallists[0];
                     } else {
-                        Output = decodeTotallists[0] + "\n" + decodeTotallists[1];
+                        if (decodeTotallists[0].endsWith("\n"))
+                            Output = decodeTotallists[0] + "\n" + decodeTotallists[1];
+                        else{
+                            Output = decodeTotallists[0] + "\n\n" + decodeTotallists[1];
+                        }
                     }
                 }
 
@@ -54,7 +74,8 @@ public class TestEncode {
                     Output = Data.replace(DataLists[1], decodeTotal);
                 }
             }
-            return Output.trim()+"\n\n";
+            return Output.trim();
+//        return Output.trim()+"\n\n";
 //    }else{
 //
 //            if (IndexautoDecoder.getRadioButtontestHeaderState() && IndexautoDecoder.getRadioButtontestdifferentState()) { // 选中对数据头处理、选中请求响应分开
