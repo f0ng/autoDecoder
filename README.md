@@ -51,6 +51,14 @@
 	</tr>
 </table>
 
+## 2024.10.12  更新0.51
+1. 修复替换模块host匹配问题
+2. 优化替换模块，增加自动解unicode模式，需要为Literal模式，Replace需为`#unicode#`，响应包的unicode编码就会自动解码
+<img width="995" alt="x1u2kzeg nao" src="https://github.com/user-attachments/assets/210e22e4-534c-42c8-8c4a-7c8dcf5f2411">
+
+## 2024.9.24  更新0.50
+1. 修复sm4加解密错误
+
 ## 2024.5.5 更新0.40
 1. 修复sm4加解密bug(base64)
 2. 增加密文关键字对响应体的判断
