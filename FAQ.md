@@ -21,7 +21,9 @@
 
 3. 有代码基础的建议使用接口进行加解密，可以自定义请求的内容，自由替换；工具本身自带加解密满足不了现在大部分应用的加解密需求。
 
-
+4. 可以参考下列文章进行使用，配合加解密靶场【https://github.com/SwagXz/encrypt-labs】
+   - 【https://flowus.cn/share/a1d890c2-f72b-4534-93cf-37db6dab5d21】加密对抗靶场enctypt-labs通关
+   - 【https://mp.weixin.qq.com/s/ZgD7qAQAsNlZgLtdZVCoFw】加密对抗靶场enctypt-labs通关
 
 ## 0x02.在`repeater`模块出现解密错误问题
 
