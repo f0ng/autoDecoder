@@ -31,7 +31,7 @@ def encrypt():
         headers = headers + "aaaa:bbbb\r\n"
         headers = headers + "f0ng:test"
         print(headers + "\r\n\r\n\r\n\r\n" + body)
-        return headers + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改 必需必需必需
+        return headers.strip() + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改 必需必需必需
 ################################################################
 ################################################################
 
@@ -59,7 +59,7 @@ def decrypt():
             pass
         headers = headers + "yyyy:zzzz\r\n"
         headers = headers + "f0ng:onlysecurity"
-        return headers + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改 必需必需必需
+        return headers.strip() + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改 必需必需必需
 ################################################################
 ################################################################
 
