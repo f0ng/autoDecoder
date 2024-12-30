@@ -51,6 +51,23 @@
 	</tr>
 </table>
 
+## 2024.12.30  更新0.52  预祝大家元旦快乐！
+1. 接口调试模块增加关键字代入模式，防止关键字引发报错
+2. 接口模式下加解密将报错回显，可以知道是具体是哪个问题导致加解密失败
+
+当返回包格式出问题
+
+<img width="500" alt="gagsjjcg o4n" src="https://github.com/user-attachments/assets/306ae42b-8079-48f8-8d28-b4359c5f06c7" />
+
+当接口不通
+
+<img width="400" alt="i3w34g2g f2x" src="https://github.com/user-attachments/assets/3578d919-140c-42ba-86ed-c26e2e54ef71" />
+
+也可以在Extensions页面查看报错信息
+
+<img width="400" alt="wtc30zsn qak" src="https://github.com/user-attachments/assets/7a226abd-0d57-4d41-9b3a-062d696a7720" />
+
+
 ## 2024.10.12  更新0.51
 1. 修复替换模块host匹配问题
 2. 优化替换模块，增加自动解unicode模式，需要为Literal模式，Replace需为`#unicode#`，响应包的unicode编码就会自动解码
