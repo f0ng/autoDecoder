@@ -59,7 +59,7 @@ def decrypt():
             pass
         headers = headers + "yyyy:zzzz\r\n"
         headers = headers + "f0ng:onlysecurity"
-        return headers.strip() + "\r\n\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改 必需必需必需，共五个\r\n
+        return headers.strip() + "\r\n\r\n\r\n\r\n" + body # 返回值为固定格式，不可更改 必需必需必需，共四个\r\n
 ################################################################
 ################################################################
 
