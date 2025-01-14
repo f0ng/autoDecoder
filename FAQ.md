@@ -183,3 +183,7 @@ f0ng:test
 
 正则模块只对请求体、响应体有效，不作用于数据头，且正则需要按照案例中正则进行参考编写
 
+
+## 0x13 插件是不是不支持识别get参数?(插件是不是没办法获取数据表的header?)
+
+勾选对数据头进行处理，python-flask代码中示例`dataHeaders `请求头，使用`headers = request.form.get('dataHeaders')`获取
