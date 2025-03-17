@@ -1,4 +1,12 @@
 # autoDecoder
+
+[![Repo stars](https://img.shields.io/github/stars/f0ng/autoDecoder)](https://github.com/f0ng/autoDecoder/stargazers)
+[![Downloads total](https://img.shields.io/github/downloads/f0ng/autoDecoder/total?label=Downloads)](https://github.com/f0ng/autoDecoder/releases)
+[![Repo tags](https://img.shields.io/github/v/tag/f0ng/autoDecoder?label=Latest)](https://github.com/f0ng/autoDecoder/tags)
+[![Downloads latest total](https://img.shields.io/github/downloads/f0ng/autoDecoder/latest/total?label=Downloads@latest)](https://github.com/f0ng/autoDecoder/releases)
+
+
+
 想维护成一个有很多用例、接口的项目，希望各位师傅有加解密之类的需求可以一起沟通，完善本项目。
 
 工具针对人群：有一定代码基础的师傅、没有基础(但是愿意自主学习捣鼓自动加解密)的师傅
