@@ -187,3 +187,13 @@ f0ng:test
 ## 0x13 插件是不是不支持识别get参数?(插件是不是没办法获取数据包的header?)
 
 勾选对数据头进行处理，python-flask代码中示例`dataHeaders `请求头，使用`headers = request.form.get('dataHeaders')`获取
+
+
+## 0x14 插件是不是不支持并发？
+
+理论上支持，但是由于代码处理密文数据、明文数据需要时间，所以高并发【burp默认线程这种】会导致加密/解密报错，建议用低并发进行处理
+
+## 0x15 使用接口加解密得到的数据包会多一个换行
+
+可以检查headers或者body是否使用`strip()【python语言】`这种去除首尾换行函数进行处理了，可以参考模板文件`flasktest.py`和`flasktestheader.py`
+
