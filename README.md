@@ -25,7 +25,8 @@
 关注主页公众号（only security），回复`autodecoder`获取下载地址】
 
 # 捐赠 （如果项目有帮助到您，可以选择捐赠一些费用用于autoDecoder的后续版本维护，本项目长期维护）
-<img width="300" alt="image" src="https://github.com/f0ng/autoDecoder/assets/48286013/5151b992-b98a-4cef-a6c7-e83e068eb363">
+<img width="251" alt="image" src="https://github.com/user-attachments/assets/f0308410-8094-47ec-9448-8ef1b8ec94d6" />
+
 
 <img width="251" alt="image" src="https://github.com/f0ng/autoDecoder/assets/48286013/e9318b91-2521-4c14-93d8-9737fd7a4729">
 
