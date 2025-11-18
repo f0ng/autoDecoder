@@ -90,7 +90,7 @@ Follow the main WeChat official account (only security), reply `autodecoder` to 
 </table>
 
 ##2025.11.19 Update 0.56
-1. Update the English version, thank you very much @ secfb # 48
+1. Update the English version, thank you very much @secfb # 48
 2. Fix sm2 decryption issue # 47
 3. Add request body base64 automatic decoding, adapt encrypted content to binary data, thank you to WeChat group master @满溢
 
