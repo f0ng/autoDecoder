@@ -1,5 +1,7 @@
 # autoDecoder
 
+## [English](https://github.com/f0ng/autoDecoder/blob/main/README-EN.md)
+
 [![Repo stars](https://img.shields.io/github/stars/f0ng/autoDecoder)](https://github.com/f0ng/autoDecoder/stargazers)
 [![Downloads total](https://img.shields.io/github/downloads/f0ng/autoDecoder/total?label=Downloads)](https://github.com/f0ng/autoDecoder/releases)
 [![Repo tags](https://img.shields.io/github/v/tag/f0ng/autoDecoder?label=Latest)](https://github.com/f0ng/autoDecoder/tags)
