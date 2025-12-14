@@ -89,6 +89,13 @@ Follow the main WeChat official account (only security), reply `autodecoder` to 
 	</tr>
 </table>
 
+## 2025.11.19  update 0.57
+1. Modify the request header keywords to add support for built-in encryption and decryption
+2. Optimize the extension tab to adapt to the request header method with built-in encryption and decryption for decryption
+3. Add confirmation for encryption/decryption method selection when saving configurations
+4. Fixed the issue where the unknown version could not display the save configuration interface
+5. Optimize the arrangement of plugin buttons to prevent mixed usage
+
 ## 2025.11.19 Update 0.56
 1. Update the English version, thank you very much @secfb # 48
 2. Fix sm2 decryption issue # 47
