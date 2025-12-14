@@ -89,7 +89,7 @@ Follow the main WeChat official account (only security), reply `autodecoder` to 
 	</tr>
 </table>
 
-## 2025.11.19  update 0.57
+## 2025.12.14  update 0.57
 1. Modify the request header keywords to add support for built-in encryption and decryption
 2. Optimize the extension tab to adapt to the request header method with built-in encryption and decryption for decryption
 3. Add confirmation for encryption/decryption method selection when saving configurations
