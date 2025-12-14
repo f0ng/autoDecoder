@@ -412,3 +412,5 @@ if __name__ == '__main__':
 ![sqlmap进行加解密](https://user-images.githubusercontent.com/48286013/160238771-dd33b0ef-1007-47a0-9659-c8a20ed6d89e.gif)
 
 
+
+![f](https://starchart.cc/f0ng/autodecoder.svg)
